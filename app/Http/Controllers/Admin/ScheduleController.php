@@ -1,0 +1,114 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Schedule;
+use App\Http\Requests\StoreScheduleRequest;
+use App\Http\Requests\UpdateScheduleRequest;
+use App\Models\Ship;
+use Yajra\DataTables\Facades\DataTables;
+
+class ScheduleController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        if (request()->ajax()) {
+            $schedules = Schedule::latest()->get();
+            return DataTables::of($schedules)
+                ->addIndexColumn()
+                ->addColumn('ship', function ($row) {
+                    return $row->ship ? $row->ship->name : '-';
+                })
+                ->addColumn('action', 'admin.schedule.include.action')
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('admin.schedule.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $ships = Ship::all();
+        return view('admin.schedule.create', compact('ships'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreScheduleRequest $request)
+    {
+        try {
+            $attr = $request->validated();
+
+            Schedule::create($attr);
+
+            return redirect()->route('admin.schedule.index')->with('success', 'Data berhasil ditambah');
+        } catch (\Throwable $th) {
+            return redirect()->route('admin.schedule.index')->with('error', $th->getMessage());
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Schedule $schedule)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Schedule $schedule)
+    {
+        $ships = Ship::all();
+        return view('admin.schedule.edit', compact('schedule', 'ships'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateScheduleRequest $request, Schedule $schedule)
+    {
+        try {
+            $attr = $request->validated();
+
+            $schedule->update($attr);
+
+            return redirect()
+                ->route('admin.schedule.index')
+                ->with('success', __('Data Berhasil Diubah'));
+        } catch (\Throwable $th) {
+            return redirect()
+                ->route('admin.port.index')
+                ->with('error', __($th->getMessage()));
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Schedule $schedule)
+    {
+        try {
+
+            $schedule->delete();
+
+            return redirect()
+                ->route('admin.schedule.index')
+                ->with('success', __('Data Berhasil Dihapus'));
+        } catch (\Throwable $th) {
+            return redirect()
+                ->route('admin.schedule.index')
+                ->with('error', __($th->getMessage()));
+        }
+    }
+}
