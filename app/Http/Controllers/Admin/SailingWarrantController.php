@@ -8,6 +8,8 @@ use App\Http\Requests\StoreSailingWarrantRequest;
 use App\Http\Requests\UpdateSailingWarrantRequest;
 use App\Models\Port;
 use App\Models\Ship;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class SailingWarrantController extends Controller
@@ -23,9 +25,6 @@ class SailingWarrantController extends Controller
                 ->addIndexColumn()
                 ->addColumn('ship', function ($row) {
                     return $row->ship ? $row->ship->name : '-';
-                })
-                ->addColumn('type', function ($row) {
-                    return $row->type();
                 })
                 ->addColumn('action', 'admin.sailing-warrant.include.action')
                 ->rawColumns(['action'])
@@ -143,6 +142,37 @@ class SailingWarrantController extends Controller
             return redirect()
                 ->route('admin.sailingwarrant.index')
                 ->with('error', __($th->getMessage()));
+        }
+    }
+
+    public function report(Request $request)
+    {
+        $month = $request->month;
+        $year = $request->year;
+        $letter_number = $request->letter_number;
+        $letter_date = $request->letter_date;
+
+        $sailingWarrants = SailingWarrant::with('ship', 'destinationPort', 'originPort')
+            ->whereMonth('arrive_time', $month)
+            ->whereYear('arrive_time', $year)
+            ->get();
+
+        $shipsOver500Count = $sailingWarrants->filter(function ($warrant) {
+            return $warrant->ship->weight > 500;
+        })->count();
+        $shipsUnder500Count = $sailingWarrants->filter(function ($warrant) {
+            $warrant->ship->weight < 500;
+        })->count();
+        $indonesianShipsCount = $sailingWarrants->filter(function ($warrant) {
+            return strtolower($warrant->ship->flag) === 'indonesia';
+        })->count();
+
+        $pdf = Pdf::loadView('admin.sailing-warrant.report', compact('sailingWarrants', 'month', 'year', 'letter_number', 'letter_date', 'shipsOver500Count', 'shipsUnder500Count', 'indonesianShipsCount'))->setPaper('A4', 'landscape');
+
+        if ($month && $year) {
+            return $pdf->stream('laporan-spb.pdf');
+        } else {
+            return redirect()->back()->with('toast_error', 'Maaf, tidak bisa export data');
         }
     }
 }

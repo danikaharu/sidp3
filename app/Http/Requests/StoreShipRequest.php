@@ -26,11 +26,11 @@ class StoreShipRequest extends FormRequest
             'call_sign' => ['required', 'string', 'max:255'],
             'passenger_capacity' => ['required', 'string', 'max:255'],
             'vehicle_capacity' => ['required', 'string', 'max:255'],
-            'weight' => ['required', 'string', 'max:255'],
+            'weight' => ['required', 'numeric'],
             'flag' => ['required', 'string', 'max:255'],
             'skipper' => ['required', 'string', 'max:255'],
             'company' => ['required', 'string', 'max:255'],
-            'imo_number' => ['required', 'string', 'max:255'],
+            'imo_number' => ['required', 'numeric'],
             'crew_number' => ['required', 'string', 'max:255'],
             'photo' => ['required', 'max:2048', 'mimes:jpg,jpeg,png']
         ];

@@ -22,12 +22,15 @@ class UpdateSailingWarrantRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'print_number' => ['required', 'string', 'max:255'],
             'ship_id' => ['required', 'exists:ships,id'],
-            'type' => ['required', 'in:1,2'],
+            'arrive_number' => ['nullable', 'string', 'max:255'],
+            'departure_number' => ['nullable', 'string', 'max:255'],
             'arrive_time' => ['required', 'date'],
             'departure_time' => ['required', 'date'],
             'origin_port' => ['required', 'exists:ports,id'],
             'destination_port' => ['required', 'exists:ports,id'],
+            'situation' => ['nullable', 'string', 'max:255'],
             'file' => ['nullable', 'max:2048', 'mimes:pdf'],
         ];
     }

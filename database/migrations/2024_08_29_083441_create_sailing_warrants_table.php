@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('sailing_warrants', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ship_id');
-            $table->tinyInteger('type');
             $table->dateTime('arrive_time');
             $table->dateTime('departure_time');
             $table->string('origin_port');

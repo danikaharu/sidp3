@@ -26,6 +26,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     // Sailing Warrant
     Route::resource('sailingwarrant', App\Http\Controllers\Admin\SailingWarrantController::class);
+    Route::get('/report', [App\Http\Controllers\Admin\SailingWarrantController::class, 'report'])->name('sailingwarrants.report');
 
     // Manifest
     Route::resource('manifest', App\Http\Controllers\Admin\ManifestController::class);
