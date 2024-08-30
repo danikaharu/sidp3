@@ -12,6 +12,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     // Dashboard
     Route::get('/dashboard', ['App\Http\Controllers\Admin\DashboardController', 'index'])->name('dashboard');
 
+    // Activity
+    Route::resource('activity', App\Http\Controllers\Admin\ActivityController::class);
+
     // Port
     Route::resource('port', App\Http\Controllers\Admin\PortController::class);
 

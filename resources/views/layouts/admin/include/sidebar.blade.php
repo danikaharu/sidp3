@@ -66,6 +66,12 @@
                 <div class="text-truncate">Beranda</div>
             </a>
         </li>
+        <li class="menu-item {{ request()->is('admin/activity', 'admin/activity/*') ? ' active' : '' }}">
+            <a href="{{ route('admin.activity.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-time"></i>
+                <div class="text-truncate">Data Kegiatan</div>
+            </a>
+        </li>
         <li class="menu-item {{ request()->is('admin/port', 'admin/port/*') ? ' active' : '' }}">
             <a href="{{ route('admin.port.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-ship"></i>
