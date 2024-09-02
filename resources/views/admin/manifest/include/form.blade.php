@@ -1,17 +1,17 @@
 <div class="row">
     <div class="col-md-6 mb-6">
-        <label class="form-label" for="basic-default-fullname">Jadwal</label>
-        <select name="schedule_id" class="form-select @error('schedule_id')
+        <label class="form-label" for="basic-default-fullname">Kapal</label>
+        <select name="ship_id" class="form-select @error('ship_id')
         invalid
     @enderror">
-            <option value="">--Pilih Jadwal--</option>
-            @foreach ($schedules as $schedule)
-                <option value="{{ $schedule->id }}"
-                    {{ isset($manifest) && $manifest->schedule_id == $schedule->id ? 'selected' : (old('schedule_id') == $schedule->id ? 'selected' : '') }}>
-                    {{ $schedule->ship->name }} - {{ $schedule->track }}</option>
+            <option disabled selected>--Pilih Kapal--</option>
+            @foreach ($ships as $ship)
+                <option value="{{ $ship->id }}"
+                    {{ isset($manifest) && $manifest->ship_id == $ship->id ? 'selected' : (old('ship_id') == $ship->id ? 'selected' : '') }}>
+                    {{ $ship }} </option>
             @endforeach
         </select>
-        @error('schedule_id')
+        @error('ship_id')
             <div class="small text-danger">
                 {{ $message }}
             </div>

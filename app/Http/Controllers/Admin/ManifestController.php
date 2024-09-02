@@ -83,7 +83,8 @@ class ManifestController extends Controller implements HasMiddleware
      */
     public function show(Manifest $manifest)
     {
-        //
+        $manifest->load('ship');
+        return view('admin.manifest.show', compact('manifest'));
     }
 
     /**

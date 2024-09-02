@@ -88,7 +88,8 @@ class SailingWarrantController extends Controller implements HasMiddleware
      */
     public function show(SailingWarrant $sailingwarrant)
     {
-        //
+        $sailingwarrant->load('ship', 'originPort', 'destinationPort');
+        return view('admin.sailing-warrant.show', compact('sailingwarrant'));
     }
 
     /**
