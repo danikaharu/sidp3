@@ -27,11 +27,16 @@
             <div class="card-header">
                 <h5>Data SPB</h5>
                 <div class="flex">
-                    <a class="btn btn-primary" href="{{ route('admin.sailingwarrant.create') }}"><i
-                            class="bx bx-plus me-1"></i>Tambah
-                        SPB</a>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#printModal"><i
-                            class="bx bx-printer me-1"></i>Cetak</button>
+                    @can('create sailing warrant')
+                        <a class="btn btn-primary" href="{{ route('admin.sailingwarrant.create') }}"><i
+                                class="bx bx-plus me-1"></i>Tambah
+                            SPB</a>
+                    @endcan
+
+                    @can('export sailing warrant')
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#printModal"><i
+                                class="bx bx-printer me-1"></i>Cetak</button>
+                    @endcan
                 </div>
             </div>
             <div class="table-responsive text-nowrap">
@@ -50,66 +55,68 @@
         <!--/ Responsive Table -->
     </div>
 
-    <!-- Print Modal -->
-    <div class="modal fade" id="printModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-simple modal-print">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel5">Cetak SPB</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{{ route('admin.sailingwarrants.report') }}">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="row g-6">
-                            <div class="col mb-0">
-                                <label for="startDate" class="form-label">Bulan</label>
-                                <select style="cursor:pointer;" class="form-select" name="month">
-                                    <option disabled selected>-- Pilih Bulan --</option>
-                                    @php
-                                        for ($m = 1; $m <= 12; ++$m) {
-                                            $month_label = date('F', mktime(0, 0, 0, $m, 1));
-                                            echo '<option value=' . $m . '>' . $month_label . '</option>';
-                                        }
-                                    @endphp
-                                </select>
-                            </div>
-                            <div class="col mb-0">
-                                <label for="endDate" class="form-label">Tahun</label>
-                                <select style="cursor:pointer;" class="form-select" name="year">
-                                    <option disabled selected>-- Pilih Tahun --</option>
-                                    @php
-                                        $year = date('Y');
-                                        $min = $year - 5;
-                                        $max = $year;
-                                        for ($i = $max; $i >= $min; $i--) {
-                                            echo '<option value=' . $i . '>' . $i . '</option>';
-                                        }
-                                    @endphp
-                                </select>
-                            </div>
+    @can('export sailing warrant')
+        <!-- Print Modal -->
+        <div class="modal fade" id="printModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-simple modal-print">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel5">Cetak SPB</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('admin.sailingwarrants.report') }}">
+                        @csrf
+                        <div class="modal-body">
                             <div class="row g-6">
                                 <div class="col mb-0">
-                                    <label for="letter_date" class="form-label">Nomor Surat</label>
-                                    <input type="text" name="letter_number" class="form-control">
+                                    <label for="startDate" class="form-label">Bulan</label>
+                                    <select style="cursor:pointer;" class="form-select" name="month">
+                                        <option disabled selected>-- Pilih Bulan --</option>
+                                        @php
+                                            for ($m = 1; $m <= 12; ++$m) {
+                                                $month_label = date('F', mktime(0, 0, 0, $m, 1));
+                                                echo '<option value=' . $m . '>' . $month_label . '</option>';
+                                            }
+                                        @endphp
+                                    </select>
                                 </div>
                                 <div class="col mb-0">
-                                    <label for="letter_date" class="form-label">Tanggal Surat</label>
-                                    <input type="text" name="letter_date" class="form-control">
+                                    <label for="endDate" class="form-label">Tahun</label>
+                                    <select style="cursor:pointer;" class="form-select" name="year">
+                                        <option disabled selected>-- Pilih Tahun --</option>
+                                        @php
+                                            $year = date('Y');
+                                            $min = $year - 5;
+                                            $max = $year;
+                                            for ($i = $max; $i >= $min; $i--) {
+                                                echo '<option value=' . $i . '>' . $i . '</option>';
+                                            }
+                                        @endphp
+                                    </select>
+                                </div>
+                                <div class="row g-6">
+                                    <div class="col mb-0">
+                                        <label for="letter_date" class="form-label">Nomor Surat</label>
+                                        <input type="text" name="letter_number" class="form-control">
+                                    </div>
+                                    <div class="col mb-0">
+                                        <label for="letter_date" class="form-label">Tanggal Surat</label>
+                                        <input type="text" name="letter_date" class="form-control">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Cetak</button>
-                    </div>
-                </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Cetak</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <!--/ Print Modal -->
+        <!--/ Print Modal -->
+    @endcan
 @endsection
 
 @push('script')

@@ -26,11 +26,13 @@
         <div class="card">
             <div class="card-header">
                 <h5>Data Jadwal</h5>
-                <div class="flex">
-                    <a class="btn btn-primary" href="{{ route('admin.schedule.create') }}"><i
-                            class="bx bx-plus me-1"></i>Tambah
-                        Jadwal</a>
-                </div>
+                @can('create schedule')
+                    <div class="flex">
+                        <a class="btn btn-primary" href="{{ route('admin.schedule.create') }}"><i
+                                class="bx bx-plus me-1"></i>Tambah
+                            Jadwal</a>
+                    </div>
+                @endcan
             </div>
             <div class="table-responsive text-nowrap">
                 <table class="table" id="listData">

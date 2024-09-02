@@ -27,8 +27,10 @@
             <div class="card-header">
                 <h5>Data Kapal</h5>
                 <div class="flex">
-                    <a class="btn btn-primary" href="{{ route('admin.ship.create') }}"><i class="bx bx-plus me-1"></i>Tambah
-                        Kapal</a>
+                    @can('create ship')
+                        <a class="btn btn-primary" href="{{ route('admin.ship.create') }}"><i class="bx bx-plus me-1"></i>Tambah
+                            Kapal</a>
+                    @endcan
                 </div>
             </div>
             <div class="table-responsive text-nowrap">

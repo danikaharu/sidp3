@@ -26,10 +26,12 @@
         <div class="card">
             <div class="card-header">
                 <h5>Data Pelabuhan</h5>
-                <div class="flex">
-                    <a class="btn btn-primary" href="{{ route('admin.port.create') }}"><i class="bx bx-plus me-1"></i>Tambah
-                        Pelabuhan</a>
-                </div>
+                @can('create port')
+                    <div class="flex">
+                        <a class="btn btn-primary" href="{{ route('admin.port.create') }}"><i class="bx bx-plus me-1"></i>Tambah
+                            Pelabuhan</a>
+                    </div>
+                @endcan
             </div>
             <div class="table-responsive text-nowrap">
                 <table class="table" id="listData">

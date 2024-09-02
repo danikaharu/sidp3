@@ -26,11 +26,14 @@
         <div class="card">
             <div class="card-header">
                 <h5>Data Kegiatan</h5>
-                <div class="flex">
-                    <a class="btn btn-primary" href="{{ route('admin.activity.create') }}"><i
-                            class="bx bx-plus me-1"></i>Tambah
-                        Kegiatan</a>
-                </div>
+                @can('create activity')
+                    <div class="flex">
+                        <a class="btn btn-primary" href="{{ route('admin.activity.create') }}"><i
+                                class="bx bx-plus me-1"></i>Tambah
+                            Kegiatan</a>
+                    </div>
+                @endcan
+
             </div>
             <div class="table-responsive text-nowrap">
                 <table class="table" id="listData">

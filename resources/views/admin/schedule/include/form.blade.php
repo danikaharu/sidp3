@@ -18,6 +18,18 @@
         @enderror
     </div>
     <div class="col-md-6 mb-6">
+        <label class="form-label" for="basic-default-fullname">Hari</label>
+        <input type="text" name="day" class="form-control @error('day')
+            invalid
+        @enderror"
+            value="{{ isset($schedule) ? $schedule->day : old('day') }}">
+        @error('day')
+            <div class="small text-danger">
+                {{ $message }}
+            </div>
+        @enderror
+    </div>
+    <div class="col-md-4 mb-6">
         <label class="form-label" for="basic-default-fullname">Lintasan</label>
         <input type="text" name="track" class="form-control @error('track')
             invalid
@@ -29,7 +41,7 @@
             </div>
         @enderror
     </div>
-    <div class="col-md-6 mb-6">
+    <div class="col-md-4 mb-6">
         <label class="form-label" for="basic-default-fullname">Jarak</label>
         <input type="text" name="distance"
             class="form-control @error('distance')
@@ -42,7 +54,7 @@
             </div>
         @enderror
     </div>
-    <div class="col-md-6 mb-6">
+    <div class="col-md-4 mb-6">
         <label class="form-label" for="basic-default-fullname">Waktu</label>
         <input type="text" name="time" class="form-control @error('time')
             invalid
