@@ -3,9 +3,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('auth.login');
-// });
+Route::get('/', function () {
+    return view('auth.login');
+});
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
@@ -26,8 +26,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     // Sailing Warrant
     Route::resource('sailingwarrant', App\Http\Controllers\Admin\SailingWarrantController::class);
-    Route::get('/report', [App\Http\Controllers\Admin\SailingWarrantController::class, 'report'])->name('sailingwarrants.report');
+    Route::get('/sailingwarrants/report', [App\Http\Controllers\Admin\SailingWarrantController::class, 'report'])->name('sailingwarrants.report');
 
     // Manifest
     Route::resource('manifest', App\Http\Controllers\Admin\ManifestController::class);
+    Route::get('/manifests/report/month', [App\Http\Controllers\Admin\ManifestController::class, 'reportByMonth'])->name('manifests.report.byMonth');
+
+    // User
+    Route::resource('user', App\Http\Controllers\Admin\UserController::class);
+
+    // Role
+    Route::resource('role', App\Http\Controllers\Admin\RoleController::class);
 });

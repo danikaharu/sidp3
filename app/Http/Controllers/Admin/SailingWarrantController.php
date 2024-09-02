@@ -10,10 +10,25 @@ use App\Models\Port;
 use App\Models\Ship;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Yajra\DataTables\Facades\DataTables;
 
-class SailingWarrantController extends Controller
+class SailingWarrantController extends Controller implements HasMiddleware
 {
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('view sailing warrant'), only: ['index']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('create sailing warrant'), only: ['create', 'store']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('show sailing warrant'), only: ['show']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('edit sailing warrant'), only: ['edit', 'update']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('delete sailing warrant'), only: ['destroy']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('export sailing warrant'), only: ['report']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */

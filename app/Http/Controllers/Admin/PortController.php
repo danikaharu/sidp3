@@ -6,10 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Models\Port;
 use App\Http\Requests\StorePortRequest;
 use App\Http\Requests\UpdatePortRequest;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Yajra\DataTables\Facades\DataTables;
 
-class PortController extends Controller
+class PortController extends Controller implements HasMiddleware
 {
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('view port'), only: ['index']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('create port'), only: ['create', 'store']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('edit port'), only: ['edit', 'update']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('delete port'), only: ['destroy']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */

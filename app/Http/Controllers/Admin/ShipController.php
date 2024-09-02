@@ -6,10 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Models\Ship;
 use App\Http\Requests\StoreShipRequest;
 use App\Http\Requests\UpdateShipRequest;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Yajra\DataTables\Facades\DataTables;
 
-class ShipController extends Controller
+class ShipController extends Controller implements HasMiddleware
 {
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('view ship'), only: ['index']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('create ship'), only: ['create', 'store']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('edit ship'), only: ['edit', 'update']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('delete ship'), only: ['destroy']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */

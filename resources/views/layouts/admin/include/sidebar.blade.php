@@ -66,41 +66,80 @@
                 <div class="text-truncate">Beranda</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->is('admin/activity', 'admin/activity/*') ? ' active' : '' }}">
-            <a href="{{ route('admin.activity.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bxs-time"></i>
-                <div class="text-truncate">Data Kegiatan</div>
-            </a>
-        </li>
-        <li class="menu-item {{ request()->is('admin/port', 'admin/port/*') ? ' active' : '' }}">
-            <a href="{{ route('admin.port.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bxs-ship"></i>
-                <div class="text-truncate">Data Pelabuhan</div>
-            </a>
-        </li>
-        <li class="menu-item {{ request()->is('admin/ship', 'admin/ship/*') ? ' active' : '' }}">
-            <a href="{{ route('admin.ship.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bxs-ship"></i>
-                <div class="text-truncate">Data Kapal</div>
-            </a>
-        </li>
-        <li class="menu-item {{ request()->is('admin/schedule', 'admin/schedule/*') ? ' active' : '' }}">
-            <a href="{{ route('admin.schedule.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bxs-calendar-event"></i>
-                <div class="text-truncate">Data Jadwal</div>
-            </a>
-        </li>
-        <li class="menu-item {{ request()->is('admin/sailingwarrant', 'admin/sailingwarrant/*') ? ' active' : '' }}">
-            <a href="{{ route('admin.sailingwarrant.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-file"></i>
-                <div class="text-truncate">Data SPB</div>
-            </a>
-        </li>
-        <li class="menu-item {{ request()->is('admin/manifest', 'admin/manifest/*') ? ' active' : '' }}">
-            <a href="{{ route('admin.manifest.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-file"></i>
-                <div class="text-truncate">Data Manifest</div>
-            </a>
-        </li>
+
+        @can('view activity')
+            <li class="menu-item {{ request()->is('admin/activity', 'admin/activity/*') ? ' active' : '' }}">
+                <a href="{{ route('admin.activity.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bxs-time"></i>
+                    <div class="text-truncate">Data Kegiatan</div>
+                </a>
+            </li>
+        @endcan
+
+        @can('view port')
+            <li class="menu-item {{ request()->is('admin/port', 'admin/port/*') ? ' active' : '' }}">
+                <a href="{{ route('admin.port.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bxs-ship"></i>
+                    <div class="text-truncate">Data Pelabuhan</div>
+                </a>
+            </li>
+        @endcan
+
+        @can('view ship')
+            <li class="menu-item {{ request()->is('admin/ship', 'admin/ship/*') ? ' active' : '' }}">
+                <a href="{{ route('admin.ship.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bxs-ship"></i>
+                    <div class="text-truncate">Data Kapal</div>
+                </a>
+            </li>
+        @endcan
+
+        @can('view schedule')
+            <li class="menu-item {{ request()->is('admin/schedule', 'admin/schedule/*') ? ' active' : '' }}">
+                <a href="{{ route('admin.schedule.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bxs-calendar-event"></i>
+                    <div class="text-truncate">Data Jadwal</div>
+                </a>
+            </li>
+        @endcan
+
+        @can('view sailing warrant')
+            <li class="menu-item {{ request()->is('admin/sailingwarrant', 'admin/sailingwarrant/*') ? ' active' : '' }}">
+                <a href="{{ route('admin.sailingwarrant.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-file"></i>
+                    <div class="text-truncate">Data SPB</div>
+                </a>
+            </li>
+        @endcan
+
+        @can('view manifest')
+            <li class="menu-item {{ request()->is('admin/manifest', 'admin/manifest/*') ? ' active' : '' }}">
+                <a href="{{ route('admin.manifest.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-file"></i>
+                    <div class="text-truncate">Data Manifest</div>
+                </a>
+            </li>
+        @endcan
+
+        @can('view user')
+            <!-- Pengguna -->
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Pengguna</span>
+            </li>
+            <li class="menu-item {{ request()->is('admin/user', 'admin/user/*') ? ' active' : '' }}">
+                <a href="{{ route('admin.user.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-user"></i>
+                    <div data-i18n="Basic">Pengguna</div>
+                </a>
+            </li>
+        @endcan
+
+        @can('view role')
+            <li class="menu-item {{ request()->is('admin/role', 'admin/role/*') ? ' active' : '' }}">
+                <a href="{{ route('admin.role.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bxs-user-account"></i>
+                    <div data-i18n="Basic">Role</div>
+                </a>
+            </li>
+        @endcan
     </ul>
 </aside>

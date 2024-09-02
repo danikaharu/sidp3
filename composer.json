@@ -7,9 +7,11 @@
     "require": {
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.0",
+        "laravel/fortify": "^1.24",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "realrashid/sweet-alert": "^7.2",
+        "spatie/laravel-permission": "^6.9",
         "yajra/laravel-datatables-oracle": "^11.1"
     },
     "require-dev": {
