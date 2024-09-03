@@ -23,9 +23,10 @@ class UpdateScheduleRequest extends FormRequest
     {
         return [
             'ship_id' => ['required', 'exists:ships,id'],
-            'track' => ['required', 'string', 'max:255'],
-            'distance' => ['required', 'string', 'max:255'],
-            'time' => ['required', 'string', 'max:255'],
+            'origin_port' => ['required', 'exists:ports,id'],
+            'destination_port' => ['required', 'exists:ports,id'],
+            'arrive_time' => ['required', 'date_format:"Y-m-d H:i'],
+            'departure_time' => ['required', 'date_format:"Y-m-d H:i'],
         ];
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Schedule;
 use App\Http\Requests\StoreScheduleRequest;
 use App\Http\Requests\UpdateScheduleRequest;
+use App\Models\Port;
 use App\Models\Ship;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -31,11 +32,14 @@ class ScheduleController extends Controller implements HasMiddleware
     public function index()
     {
         if (request()->ajax()) {
-            $schedules = Schedule::latest()->get();
+            $schedules = Schedule::with('ship', 'originPort', 'destinationPort')->latest()->get();
             return DataTables::of($schedules)
                 ->addIndexColumn()
                 ->addColumn('ship', function ($row) {
                     return $row->ship ? $row->ship->name : '-';
+                })
+                ->addColumn('port', function ($row) {
+                    return $row->originPort->name . '-' . $row->destinationPort->name;
                 })
                 ->addColumn('action', 'admin.schedule.include.action')
                 ->rawColumns(['action'])
@@ -51,7 +55,8 @@ class ScheduleController extends Controller implements HasMiddleware
     public function create()
     {
         $ships = Ship::all();
-        return view('admin.schedule.create', compact('ships'));
+        $ports = Port::all();
+        return view('admin.schedule.create', compact('ships', 'ports'));
     }
 
     /**
@@ -84,7 +89,8 @@ class ScheduleController extends Controller implements HasMiddleware
     public function edit(Schedule $schedule)
     {
         $ships = Ship::all();
-        return view('admin.schedule.edit', compact('schedule', 'ships'));
+        $ports = Port::all();
+        return view('admin.schedule.edit', compact('schedule', 'ships', 'ports'));
     }
 
     /**

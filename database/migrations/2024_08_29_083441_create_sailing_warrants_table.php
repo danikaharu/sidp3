@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('sailing_warrants', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ship_id');
-            $table->dateTime('arrive_time');
-            $table->dateTime('departure_time');
-            $table->string('origin_port');
-            $table->string('destination_port');
+            $table->foreignId('schedule_id');
+            $table->dateTime('print_number');
+            $table->dateTime('arrive_number')->nullable();
+            $table->string('departure_number')->nullable();
+            $table->text('situation')->nullable();
             $table->text('file');
             $table->timestamps();
         });

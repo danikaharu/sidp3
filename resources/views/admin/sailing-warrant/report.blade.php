@@ -74,30 +74,33 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($sailingWarrants as $data)
+                @forelse($sailingWarrants as $data)
                     <tr>
                         <td style="text-align:center;">{{ $loop->iteration }}</td>
                         <td style="text-align:center;">{{ $data->print_number }}</td>
-                        <td style="text-align:center;">{{ $data->ship->name }}</td>
-                        <td style="text-align:center;">{{ $data->ship->call_sign }}</td>
-                        <td style="text-align:center;">{{ $data->ship->weight }}</td>
-                        <td style="text-align:center;">{{ $data->ship->flag }}</td>
+                        <td style="text-align:center;">{{ $data->schedule->ship->name }}</td>
+                        <td style="text-align:center;">{{ $data->schedule->ship->call_sign }}</td>
+                        <td style="text-align:center;">{{ $data->schedule->ship->weight }}</td>
+                        <td style="text-align:center;">{{ $data->schedule->ship->flag }}</td>
                         <td style="text-align:center;">
-                            {{ \Carbon\Carbon::parse($data->arrive_time)->format('d F') }}
+                            {{ \Carbon\Carbon::parse($data->schedule->arrive_time)->format('d F') }}
                         </td>
-                        <td style="text-align:center;">{{ $data->originPort->name }}</td>
+                        <td style="text-align:center;">{{ $data->schedule->originPort->name }}</td>
                         <td style="text-align:center;">{{ $data->arrive_number }}</td>
                         <td style="text-align:center;">
-                            {{ \Carbon\Carbon::parse($data->departure_time)->format('d F') }}
+                            {{ \Carbon\Carbon::parse($data->schedule->departure_time)->format('d F') }}
                         </td>
-                        <td style="text-align:center;">{{ $data->destinationPort->name }}</td>
+                        <td style="text-align:center;">{{ $data->schedule->destinationPort->name }}</td>
                         <td style="text-align:center;">{{ $data->departure_number }}</td>
                         <td style="text-align:center;">
-                            {{ \Carbon\Carbon::parse($data->departure_time)->format('H.i') }}</td>
+                            {{ \Carbon\Carbon::parse($data->schedule->departure_time)->format('H.i') }}</td>
                         <td style="text-align:center;">{{ $data->situation }}</td>
                     </tr>
-                @endforeach
-
+                @empty
+                    <tr>
+                        <td colspan="14" style="text-align: center">Maaf, belum ada data</td>
+                    </tr>
+                @endforelse ($sailingWarrants as $data)
             </tbody>
         </table>
     </div>

@@ -12,18 +12,19 @@
         @enderror
     </div>
     <div class="col-md-6 mb-6">
-        <label class="form-label" for="basic-default-fullname">Kapal</label>
-        <select name="ship_id" class="form-select @error('ship_id')
+        <label class="form-label" for="basic-default-fullname">Jadwal</label>
+        <select name="schedule_id" class="form-select @error('schedule_id')
         invalid
     @enderror">
-            <option value="">--Pilih Kapal--</option>
-            @foreach ($ships as $ship)
-                <option value="{{ $ship->id }}"
-                    {{ isset($sailingwarrant) && $sailingwarrant->ship_id == $ship->id ? 'selected' : (old('ship_id') == $ship->id ? 'selected' : '') }}>
-                    {{ $ship->name }}</option>
+            <option value="">--Pilih Jadwal--</option>
+            @foreach ($schedules as $schedule)
+                <option value="{{ $schedule->id }}"
+                    {{ isset($sailingwarrant) && $sailingwarrant->schedule_id == $schedule->id ? 'selected' : (old('schedule_id') == $schedule->id ? 'selected' : '') }}>
+                    {{ $schedule->ship->name }} -
+                    {{ \Carbon\Carbon::parse($schedule->arrive_time)->format('d F Y H:i') }}</option>
             @endforeach
         </select>
-        @error('ship_id')
+        @error('schedule_id')
             <div class="small text-danger">
                 {{ $message }}
             </div>
@@ -56,68 +57,6 @@
         @enderror
     </div>
 
-    <div class="col-md-6 mb-6">
-        <label class="form-label" for="basic-default-fullname">Waktu Tiba</label>
-        <input type="datetime-local" name="arrive_time"
-            class="form-control @error('arrive_time')
-            invalid
-        @enderror"
-            value="{{ isset($sailingwarrant) ? $sailingwarrant->arrive_time : old('arrive_time') }}">
-        @error('arrive_time')
-            <div class="small text-danger">
-                {{ $message }}
-            </div>
-        @enderror
-    </div>
-    <div class="col-md-6 mb-6">
-        <label class="form-label" for="basic-default-fullname">Waktu Berangkat</label>
-        <input type="datetime-local" name="departure_time"
-            class="form-control @error('departure_time')
-            invalid
-        @enderror"
-            value="{{ isset($sailingwarrant) ? $sailingwarrant->departure_time : old('departure_time') }}">
-        @error('departure_time')
-            <div class="small text-danger">
-                {{ $message }}
-            </div>
-        @enderror
-    </div>
-    <div class="col-md-6 mb-6">
-        <label class="form-label" for="basic-default-fullname">Pelabuhan Asal</label>
-        <select name="origin_port" class="form-select @error('origin_port')
-        invalid
-    @enderror">
-            <option value="">--Pilih Pelabuhan--</option>
-            @foreach ($ports as $port)
-                <option value="{{ $port->id }}"
-                    {{ isset($sailingwarrant) && $sailingwarrant->origin_port == $port->id ? 'selected' : (old('origin_port') == $port->id ? 'selected' : '') }}>
-                    {{ $port->name }}</option>
-            @endforeach
-        </select>
-        @error('origin_port')
-            <div class="small text-danger">
-                {{ $message }}
-            </div>
-        @enderror
-    </div>
-    <div class="col-md-6 mb-6">
-        <label class="form-label" for="basic-default-fullname">Pelabuhan Tujuan</label>
-        <select name="destination_port" class="form-select @error('destination_port')
-        invalid
-    @enderror">
-            <option value="">--Pilih Pelabuhan--</option>
-            @foreach ($ports as $port)
-                <option value="{{ $port->id }}"
-                    {{ isset($sailingwarrant) && $sailingwarrant->destination_port == $port->id ? 'selected' : (old('destination_port') == $port->id ? 'selected' : '') }}>
-                    {{ $port->name }}</option>
-            @endforeach
-        </select>
-        @error('destination_port')
-            <div class="small text-danger">
-                {{ $message }}
-            </div>
-        @enderror
-    </div>
     <div class="col-md-12 mb-6">
         <label class="form-label" for="basic-default-fullname">Keterangan</label>
         <input type="text" name="situation" class="form-control @error('situation')

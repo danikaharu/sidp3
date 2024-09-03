@@ -32,7 +32,7 @@
                         </tr>
                         <tr>
                             <td><strong>Kapal</strong></td>
-                            <td>{{ $sailingwarrant->ship->name }}</td>
+                            <td>{{ $sailingwarrant->schedule->ship->name }}</td>
                         </tr>
                         <tr>
                             <td><strong>Nomor SPB Tiba</strong></td>
@@ -47,20 +47,24 @@
                             <td>{{ $sailingwarrant->print_number }}</td>
                         </tr>
                         <tr>
-                            <td><strong>Waktu Tiba</strong></td>
-                            <td>{{ $sailingwarrant->arrive_time }}</td>
+                            <td><strong>Waktu Kedatangan</strong></td>
+                            <td>
+                                {{ \Carbon\Carbon::parse($sailingwarrant->schedule->arrive_time)->format('d F Y H:i') }}
+                            </td>
                         </tr>
                         <tr>
-                            <td><strong>Waktu Tolak</strong></td>
-                            <td>{{ $sailingwarrant->departure_time }}</td>
+                            <td><strong>Waktu Keberangkatan</strong></td>
+                            <td>
+                                {{ \Carbon\Carbon::parse($sailingwarrant->schedule->departure_time)->format('d F Y H:i') }}
+                            </td>
                         </tr>
                         <tr>
                             <td><strong>Pelabuhan Asal</strong></td>
-                            <td>{{ $sailingwarrant->originPort->name }}</td>
+                            <td>{{ $sailingwarrant->schedule->originPort->name }}</td>
                         </tr>
                         <tr>
                             <td><strong>Pelabuhan Tujuan</strong></td>
-                            <td>{{ $sailingwarrant->destinationPort->name }}</td>
+                            <td>{{ $sailingwarrant->schedule->destinationPort->name }}</td>
                         </tr>
                         <tr>
                             <td><strong>Situasi</strong></td>

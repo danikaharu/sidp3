@@ -10,31 +10,17 @@ class SailingWarrant extends Model
     use HasFactory;
 
     protected $fillable = [
+        'schedule_id',
         'print_number',
-        'ship_id',
         'arrive_number',
         'departure_number',
-        'arrive_time',
-        'departure_time',
-        'origin_port',
-        'destination_port',
         'situation',
         'file'
     ];
 
-    public function ship()
+    public function schedule()
     {
-        return $this->belongsTo(Ship::class);
-    }
-
-    public function originPort()
-    {
-        return $this->belongsTo(Port::class, 'origin_port');
-    }
-
-    public function destinationPort()
-    {
-        return $this->belongsTo(Port::class, 'destination_port');
+        return $this->belongsTo(Schedule::class);
     }
 
     public function type()

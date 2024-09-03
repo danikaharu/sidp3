@@ -40,8 +40,9 @@
                         <tr class="text-nowrap">
                             <th>#</th>
                             <th>Nama Kapal</th>
-                            <th>Lintasan</th>
-                            <th>Waktu</th>
+                            <th>Pelabuhan</th>
+                            <th>Waktu Kedatangan</th>
+                            <th>Waktu Keberangkatan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -78,10 +79,13 @@
                     }, {
                         data: 'ship',
                     }, {
-                        data: 'track',
+                        data: 'port',
                     },
                     {
-                        data: 'time',
+                        data: 'arrive_time',
+                    },
+                    {
+                        data: 'departure_time',
                     },
                     {
                         data: 'action',

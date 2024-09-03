@@ -7,6 +7,7 @@ use App\Models\SailingWarrant;
 use App\Http\Requests\StoreSailingWarrantRequest;
 use App\Http\Requests\UpdateSailingWarrantRequest;
 use App\Models\Port;
+use App\Models\Schedule;
 use App\Models\Ship;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ class SailingWarrantController extends Controller implements HasMiddleware
             return DataTables::of($sailingwarrants)
                 ->addIndexColumn()
                 ->addColumn('ship', function ($row) {
-                    return $row->ship ? $row->ship->name : '-';
+                    return $row->schedule->ship ? $row->schedule->ship->name : '-';
                 })
                 ->addColumn('action', 'admin.sailing-warrant.include.action')
                 ->rawColumns(['action'])
@@ -54,9 +55,8 @@ class SailingWarrantController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        $ships = Ship::all();
-        $ports = Port::all();
-        return view('admin.sailing-warrant.create', compact('ships', 'ports'));
+        $schedules = Schedule::all();
+        return view('admin.sailing-warrant.create', compact('schedules'));
     }
 
     /**
@@ -88,7 +88,7 @@ class SailingWarrantController extends Controller implements HasMiddleware
      */
     public function show(SailingWarrant $sailingwarrant)
     {
-        $sailingwarrant->load('ship', 'originPort', 'destinationPort');
+        $sailingwarrant->load('schedule');
         return view('admin.sailing-warrant.show', compact('sailingwarrant'));
     }
 
@@ -168,19 +168,21 @@ class SailingWarrantController extends Controller implements HasMiddleware
         $letter_number = $request->letter_number;
         $letter_date = $request->letter_date;
 
-        $sailingWarrants = SailingWarrant::with('ship', 'destinationPort', 'originPort')
-            ->whereMonth('arrive_time', $month)
-            ->whereYear('arrive_time', $year)
+        $sailingWarrants = SailingWarrant::with('schedule')
+            ->whereHas('schedule', function ($query) use ($month, $year) {
+                $query->whereMonth('arrive_time', $month)
+                    ->whereYear('arrive_time', $year);
+            })
             ->get();
 
         $shipsOver500Count = $sailingWarrants->filter(function ($warrant) {
-            return $warrant->ship->weight > 500;
+            return $warrant->schedule->ship->weight > 500;
         })->count();
         $shipsUnder500Count = $sailingWarrants->filter(function ($warrant) {
-            $warrant->ship->weight < 500;
+            $warrant->schedule->ship->weight < 500;
         })->count();
         $indonesianShipsCount = $sailingWarrants->filter(function ($warrant) {
-            return strtolower($warrant->ship->flag) === 'indonesia';
+            return strtolower($warrant->schedule->ship->flag) === 'indonesia';
         })->count();
 
         $pdf = Pdf::loadView('admin.sailing-warrant.report', compact('sailingWarrants', 'month', 'year', 'letter_number', 'letter_date', 'shipsOver500Count', 'shipsUnder500Count', 'indonesianShipsCount'))->setPaper('A4', 'landscape');

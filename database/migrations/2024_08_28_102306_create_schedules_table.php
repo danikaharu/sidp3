@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ship_id');
-            $table->string('track');
-            $table->string('distance');
-            $table->string('time');
+            $table->tinyInteger('origin_port');
+            $table->tinyInteger('destination_port');
+            $table->dateTime('arrive_time');
+            $table->dateTime('departure_time');
             $table->timestamps();
         });
     }

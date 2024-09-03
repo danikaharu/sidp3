@@ -9,6 +9,11 @@ class Ship extends Model
 {
     use HasFactory;
 
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
     protected $fillable = [
         'name',
         'call_sign',
