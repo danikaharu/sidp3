@@ -1,3 +1,7 @@
+@push('style')
+    <link rel="stylesheet" href="{{ asset('template_admin/vendor/libs/select2/select2.css') }}">
+@endpush
+
 <div class="row">
     <div class="col-md-6 mb-6">
         <label class="form-label" for="basic-default-fullname">Nomor Cetak SPB</label>
@@ -13,10 +17,9 @@
     </div>
     <div class="col-md-6 mb-6">
         <label class="form-label" for="basic-default-fullname">Jadwal</label>
-        <select name="schedule_id" class="form-select @error('schedule_id')
+        <select name="schedule_id" class="select2 form-select @error('schedule_id')
         invalid
     @enderror">
-            <option value="">--Pilih Jadwal--</option>
             @foreach ($schedules as $schedule)
                 <option value="{{ $schedule->id }}"
                     {{ isset($sailingwarrant) && $sailingwarrant->schedule_id == $schedule->id ? 'selected' : (old('schedule_id') == $schedule->id ? 'selected' : '') }}>
@@ -115,3 +118,8 @@
         </div>
     @endisset
 </div>
+
+@push('script')
+    <script src="{{ asset('template_admin/vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{ asset('template_admin/vendor/js/forms-selects.js') }}"></script>
+@endpush

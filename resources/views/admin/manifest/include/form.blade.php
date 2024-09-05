@@ -1,17 +1,21 @@
+@push('style')
+    <link rel="stylesheet" href="{{ asset('template_admin/vendor/libs/select2/select2.css') }}">
+@endpush
+
 <div class="row">
     <div class="col-md-6 mb-6">
         <label class="form-label" for="basic-default-fullname">Kapal</label>
-        <select name="ship_id" class="form-select @error('ship_id')
+        <select name="schedule_id" class="select2 form-select @error('schedule_id')
         invalid
     @enderror">
-            <option disabled selected>--Pilih Kapal--</option>
-            @foreach ($ships as $ship)
-                <option value="{{ $ship->id }}"
-                    {{ isset($manifest) && $manifest->ship_id == $ship->id ? 'selected' : (old('ship_id') == $ship->id ? 'selected' : '') }}>
-                    {{ $ship }} </option>
+            @foreach ($schedules as $schedule)
+                <option value="{{ $schedule->id }}"
+                    {{ isset($sailingwarrant) && $sailingwarrant->schedule_id == $schedule->id ? 'selected' : (old('schedule_id') == $schedule->id ? 'selected' : '') }}>
+                    {{ $schedule->ship->name }} -
+                    {{ \Carbon\Carbon::parse($schedule->arrive_time)->format('d F Y H:i') }}</option>
             @endforeach
         </select>
-        @error('ship_id')
+        @error('schedule_id')
             <div class="small text-danger">
                 {{ $message }}
             </div>
@@ -215,7 +219,7 @@
         @enderror
     </div>
     <div class="col-md-6 mb-6">
-        <label class="form-label" for="basic-default-fullname">Golongan</label>
+        <label class="form-label" for="basic-default-fullname">Golongan IX</label>
         <input type="text" name="group_IX" class="form-control @error('group_IX')
         invalid
     @enderror"
@@ -253,7 +257,7 @@
         @enderror
     </div>
     <div class="col-md-6 mb-6">
-        <label class="form-label" for="basic-default-fullname">Barang Curah (KG)</label>
+        <label class="form-label" for="basic-default-fullname">Barang Curah (Ton)</label>
         <input type="text" name="bulk_goods"
             class="form-control @error('bulk_goods')
         invalid
@@ -292,3 +296,8 @@
         @enderror
     </div>
 </div>
+
+@push('script')
+    <script src="{{ asset('template_admin/vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{ asset('template_admin/vendor/js/forms-selects.js') }}"></script>
+@endpush
