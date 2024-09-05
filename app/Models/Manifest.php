@@ -10,7 +10,7 @@ class Manifest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'ship_id',
+        'schedule_id',
         'type',
         'adult_passenger',
         'child_passenger',
@@ -34,9 +34,9 @@ class Manifest extends Model
         'situation',
     ];
 
-    public function ship()
+    public function schedule()
     {
-        return $this->belongsTo(Ship::class);
+        return $this->belongsTo(Schedule::class);
     }
 
     public function type()

@@ -22,7 +22,7 @@ class StoreManifestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ship_id' => ['required', 'exists:ships,id'],
+            'schedule_id' => ['required', 'exists:schedules,id'],
             'type' => ['required', 'in:1,2,3'],
             'adult_passenger' => ['required', 'string', 'max:255'],
             'child_passenger' => ['required', 'string', 'max:255'],
@@ -41,7 +41,7 @@ class StoreManifestRequest extends FormRequest
             'group_IX' => ['required', 'string', 'max:255'],
             'load_factor_passenger' => ['required', 'string', 'max:255'],
             'load_factor_vehicle' => ['required', 'string', 'max:255'],
-            'bulk_goods' => ['required', 'string', 'max:255'],
+            'bulk_goods' => ['required', 'regex:/^\d+(\.\d+)?$/'],
             'description_bulk_goods' => ['required', 'string', 'max:255'],
             'situation' => ['required', 'string', 'max:255'],
         ];

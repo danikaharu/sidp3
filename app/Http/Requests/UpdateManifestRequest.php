@@ -22,7 +22,7 @@ class UpdateManifestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ship_id' => ['required', 'exists:ships,id'],
+            'schedule_id' => ['required', 'exists:schedules,id'],
             'type' => ['required', 'in:1,2,3'],
             'adult_passenger' => ['required', 'string', 'max:255'],
             'child_passenger' => ['required', 'string', 'max:255'],

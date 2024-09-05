@@ -32,11 +32,11 @@
                         </tr>
                         <tr>
                             <td><strong>Jadwal</strong></td>
-                            <td>-</td>
+                            <td>{{ \Carbon\Carbon::parse($manifest->schedule->arrive_time)->format('l, d F Y H:i') }}</td>
                         </tr>
                         <tr>
                             <td><strong>Kapal</strong></td>
-                            <td>{{ $manifest->ship->name }}</td>
+                            <td>{{ $manifest->schedule->ship->name }}</td>
                         </tr>
                         <tr>
                             <td><strong>Penumpang Dewasa</strong></td>
