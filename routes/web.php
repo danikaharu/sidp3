@@ -31,6 +31,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth'], fu
     // Manifest
     Route::resource('manifest', App\Http\Controllers\Admin\ManifestController::class);
     Route::get('/manifests/report/month', [App\Http\Controllers\Admin\ManifestController::class, 'reportByMonth'])->name('manifests.report.byMonth');
+    Route::get('/manifests/report/ship', [App\Http\Controllers\Admin\ManifestController::class, 'reportByShip'])->name('manifests.report.byShip');
 
     // User
     Route::resource('user', App\Http\Controllers\Admin\UserController::class);

@@ -118,6 +118,17 @@
                             <td><strong>Situasi</strong></td>
                             <td>{{ $manifest->situation }}</td>
                         </tr>
+                        <tr>
+                            <td><strong>File</strong></td>
+                            <td>
+                                <a href="{{ asset('storage/upload/manifest/' . $manifest->file) }}" target="pdf-frame"
+                                    class="btn btn-dark btn-sm">
+                                    <i class="bx bxs-file-pdf">
+                                        Lihat File
+                                    </i>
+                                </a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

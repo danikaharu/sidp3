@@ -295,6 +295,50 @@
             </div>
         @enderror
     </div>
+    @isset($manifest)
+        <div class="mb-3 col-md-12">
+            <div class="row">
+                <div class="col-md-3">
+                    @if ($manifest->file == null)
+                        <label for="file" class="form-label">File Lama</label>
+                        <img src="https://via.placeholder.com/350?text=File+Tidak+Ditemukan" alt="File Manifest"
+                            class="rounded mb-2 mt-2" alt="File Manifest" width="200" height="150"
+                            style="object-fit: cover">
+                    @else
+                        <label for="file" class="form-label">File Lama</label>
+                        <div class="form-group">
+                            <a href="{{ asset('storage/upload/manifest/' . $manifest->file) }}" target="pdf-frame"
+                                class="btn btn-outline-dark btn-sm"><i class="bx bxs-file-pdf me-1"></i>Lihat File</a>
+                        </div>
+                    @endif
+                </div>
+                <div class="col-md-9">
+                    <div class="form-group ms-3">
+                        <label for="file" class="form-label">File Manifest</label>
+                        <input class="form-control @error('file') is-invalid @enderror" type="file" name="file" />
+                        @error('file')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+        </div>
+    @else
+        <div class="col-md-12">
+            <div class="mb-3">
+                <label class="form-label">File Manifest</label>
+                <input type="file" name="file"
+                    class="form-control @error('file')
+            invalid
+        @enderror">
+                @error('file')
+                    <div class="small text-danger">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+        </div>
+    @endisset
 </div>
 
 @push('script')

@@ -32,6 +32,7 @@ class Manifest extends Model
         'bulk_goods',
         'description_bulk_goods',
         'situation',
+        'file',
     ];
 
     public function schedule()

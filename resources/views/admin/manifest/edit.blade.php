@@ -12,7 +12,8 @@
                         <h5 class="mb-0">Edit Data Manifest</h5>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('admin.manifest.update', $manifest->id) }}" method="POST">
+                        <form action="{{ route('admin.manifest.update', $manifest->id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 

@@ -44,6 +44,7 @@ class StoreManifestRequest extends FormRequest
             'bulk_goods' => ['required', 'regex:/^\d+(\.\d+)?$/'],
             'description_bulk_goods' => ['required', 'string', 'max:255'],
             'situation' => ['required', 'string', 'max:255'],
+            'file' => ['required', 'max:2048', 'mimes:pdf'],
         ];
     }
 }
