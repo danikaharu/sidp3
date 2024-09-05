@@ -25,8 +25,8 @@ class StoreScheduleRequest extends FormRequest
             'ship_id' => ['required', 'exists:ships,id'],
             'origin_port' => ['required', 'exists:ports,id'],
             'destination_port' => ['required', 'exists:ports,id'],
-            'arrive_time' => ['required', 'date_format:"Y-m-d H:i:s'],
-            'departure_time' => ['required', 'date_format:"Y-m-d H:i:s'],
+            'arrive_time' => ['required', 'date_format:"Y-m-d H:i'],
+            'departure_time' => ['required', 'date_format:"Y-m-d H:i'],
         ];
     }
 }
