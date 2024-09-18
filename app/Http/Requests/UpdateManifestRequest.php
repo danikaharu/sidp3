@@ -44,7 +44,7 @@ class UpdateManifestRequest extends FormRequest
             'bulk_goods' => ['required', 'string', 'max:255'],
             'description_bulk_goods' => ['required', 'string', 'max:255'],
             'situation' => ['required', 'string', 'max:255'],
-            'file' => ['required', 'max:2048', 'mimes:pdf'],
+            'file' => ['nullable', 'max:2048', 'mimes:pdf'],
         ];
     }
 }
