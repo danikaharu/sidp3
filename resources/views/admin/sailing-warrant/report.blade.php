@@ -132,8 +132,8 @@
                 <h6 style="margin: 0;">SYAHBANDAR PEMBANTU PELABUHAN</h6>
                 <h6 style="margin: 0;">PENYEBERANGAN GORONTALO</h6>
                 <br /><br /><br />
-                <h6 style="margin: 0;">SITTI CHADIDJAH LAHAMA, S.Kom</h6>
-                <h6 style="margin: 0;">NIP. 19720415 200003 2 005</h6>
+                <h6 style="margin: 0;">{{ $official_name ?? 'NAMA PEJABAT' }}</h6>
+                <h6 style="margin: 0;">NIP. {{ $official_nip ?? '' }}</h6>
             </td>
         </tr>
     </table>

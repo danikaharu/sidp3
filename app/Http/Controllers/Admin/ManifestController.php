@@ -202,6 +202,8 @@ class ManifestController extends Controller implements HasMiddleware
         $year = $request->year;
         $letter_number = $request->letter_number;
         $letter_date = $request->letter_date;
+        $official_name = $request->official_name;
+        $official_nip = $request->official_nip;
 
         $fmt = new \IntlDateFormatter('id_ID', \IntlDateFormatter::LONG, \IntlDateFormatter::NONE, null, null, 'MMMM');
         $date = DateTime::createFromFormat('!m', $month);
@@ -247,7 +249,7 @@ class ManifestController extends Controller implements HasMiddleware
             )
             ->get();
 
-        $pdf = Pdf::loadView('admin.manifest.report.by-month', compact('manifests', 'month_name', 'year', 'letter_number', 'letter_date'))->setPaper('8.5x14', 'landscape');
+        $pdf = Pdf::loadView('admin.manifest.report.by-month', compact('manifests', 'month_name', 'year', 'letter_number', 'letter_date', 'official_name', 'official_nip'))->setPaper('8.5x14', 'landscape');
 
         if ($month && $year) {
             return $pdf->stream('laporan produksi_' . $month_name . '_' . $year . '.pdf');

@@ -315,8 +315,8 @@
         <h6>Kepala Seksi Sarana AJSDP,</h6>
         <h6>&nbsp;</h6>
         <h6>&nbsp;</h6>
-        <h6 style="margin: 0">Hotden H. Naibaho, S.T., M.M.</h6>
-        <h6 style="margin: 0">NIP. 1932173912737127</h6>
+        <h6 style="margin: 0">{{ $official_name ?? 'NAMA PEJABAT' }}</h6>
+        <h6 style="margin: 0">NIP. {{ $official_nip ?? '' }}</h6>
     </div>
 
 </body>

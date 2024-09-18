@@ -104,6 +104,16 @@
                                         <input type="text" name="letter_date" class="form-control">
                                     </div>
                                 </div>
+                                <div class="row g-6">
+                                    <div class="col mb-0">
+                                        <label for="official_name" class="form-label">Nama Pejabat</label>
+                                        <input type="text" name="official_name" class="form-control">
+                                    </div>
+                                    <div class="col mb-0">
+                                        <label for="official_nip" class="form-label">NIP Pejabat</label>
+                                        <input type="text" name="official_nip" class="form-control">
+                                    </div>
+                                </div>
                             </div>
 
                         </div>

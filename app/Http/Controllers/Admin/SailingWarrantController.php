@@ -167,6 +167,8 @@ class SailingWarrantController extends Controller implements HasMiddleware
         $year = $request->year;
         $letter_number = $request->letter_number;
         $letter_date = $request->letter_date;
+        $official_name = $request->official_name;
+        $official_nip = $request->official_nip;
 
         $sailingWarrants = SailingWarrant::with('schedule')
             ->whereHas('schedule', function ($query) use ($month, $year) {
@@ -185,7 +187,7 @@ class SailingWarrantController extends Controller implements HasMiddleware
             return strtolower($warrant->schedule->ship->flag) === 'indonesia';
         })->count();
 
-        $pdf = Pdf::loadView('admin.sailing-warrant.report', compact('sailingWarrants', 'month', 'year', 'letter_number', 'letter_date', 'shipsOver500Count', 'shipsUnder500Count', 'indonesianShipsCount'))->setPaper('A4', 'landscape');
+        $pdf = Pdf::loadView('admin.sailing-warrant.report', compact('sailingWarrants', 'month', 'year', 'letter_number', 'letter_date', 'official_name', 'official_nip', 'shipsOver500Count', 'shipsUnder500Count', 'indonesianShipsCount'))->setPaper('A4', 'landscape');
 
         if ($month && $year) {
             return $pdf->stream('laporan-spb.pdf');
