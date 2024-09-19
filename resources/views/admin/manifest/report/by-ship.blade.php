@@ -92,53 +92,112 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($manifests as $data)
-                    @if ($data->type == 1)
+                @foreach ($datesInMonth as $date => $data)
+                    @if ($data['arrival'])
                         <tr>
                             <td style="text-align:center;">{{ $loop->iteration }}</td>
                             <td style="text-align:center;">
-                                {{ \Carbon\Carbon::parse($data->schedule->arrive_time)->format('l') }}</td>
+                                {{ \Carbon\Carbon::parse($date)->isoFormat('dddd') }}
+                            </td>
                             <td style="text-align:center;">
-                                {{ \Carbon\Carbon::parse($data->schedule->arrive_time)->format('d F Y') }}</td>
-                            <td style="text-align:center;">{{ $data->schedule->ship->name }}</td>
-                            <td style="text-align:center;">{{ $data->schedule->ship->passenger_capacity }}</td>
-                            <td style="text-align:center;">{{ $data->schedule->ship->vehicle_capacity }}</td>
+                                {{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }}
+                            </td>
+                            <td style="text-align:center;">{{ $data['arrival']->schedule->ship->name }}</td>
+                            <td style="text-align:center;">{{ $data['arrival']->schedule->ship->passenger_capacity }}
+                            </td>
+                            <td style="text-align:center;">{{ $data['arrival']->schedule->ship->vehicle_capacity }}</td>
                             <td style="text-align:center;">1</td>
-                            <td style="text-align:center;">{{ $data->adult_passenger }}</td>
-                            <td style="text-align:center;">{{ $data->child_passenger }}</td>
+                            <td style="text-align:center;">{{ $data['arrival']->adult_passenger }}</td>
+                            <td style="text-align:center;">{{ $data['arrival']->child_passenger }}</td>
                             <td style="text-align:center;background-color: yellow;">
-                                {{ $data->adult_passenger + $data->child_passenger }}</td>
-                            <td style="text-align:center;background-color: yellow;">{{ $data->vehicle_passenger }}
+                                {{ $data['arrival']->adult_passenger + $data['arrival']->child_passenger }}</td>
+                            <td style="text-align:center;background-color: yellow;">
+                                {{ $data['arrival']->vehicle_passenger }}
                             </td>
                             <td style="text-align:center;background-color: yellow;">
-                                {{ $data->adult_passenger + $data->child_passenger + $data->vehicle_passenger }}
+                                {{ $data['arrival']->adult_passenger + $data['arrival']->child_passenger + $data['arrival']->vehicle_passenger }}
                             </td>
-                            <td style="text-align:center;">{{ $data->group_I }}</td>
-                            <td style="text-align:center;">{{ $data->group_II }}</td>
-                            <td style="text-align:center;">{{ $data->group_III }}</td>
+                            <td style="text-align:center;">{{ $data['arrival']->group_I }}</td>
+                            <td style="text-align:center;">{{ $data['arrival']->group_II }}</td>
+                            <td style="text-align:center;">{{ $data['arrival']->group_III }}</td>
                             <td style="text-align:center;background-color: yellow;">
-                                {{ $data->group_I + $data->group_II + $data->group_III }}</td>
-                            <td style="text-align:center;">{{ $data->group_IVA }}</td>
-                            <td style="text-align:center;">{{ $data->group_IVB }}</td>
-                            <td style="text-align:center;">{{ $data->group_VA }}</td>
-                            <td style="text-align:center;">{{ $data->group_VB }}</td>
-                            <td style="text-align:center;">{{ $data->group_VIA }}</td>
-                            <td style="text-align:center;">{{ $data->group_VIB }}</td>
-                            <td style="text-align:center;">{{ $data->group_VII }}</td>
-                            <td style="text-align:center;">{{ $data->group_VIII }}</td>
-                            <td style="text-align:center;">{{ $data->group_IX }}</td>
-                            <td style="text-align:center;background-color: yellow;">
-                                {{ $data->group_IVA + $data->group_IVB + $data->group_VA + $data->group_VB + $data->group_VIA + $data->group_VIB + $data->group_VII + $data->group_VIII + $data->group_IX }}
+                                {{ $data['arrival']->group_I + $data['arrival']->group_II + $data['arrival']->group_III }}
                             </td>
+                            <td style="text-align:center;">{{ $data['arrival']->group_IVA }}</td>
+                            <td style="text-align:center;">{{ $data['arrival']->group_IVB }}</td>
+                            <td style="text-align:center;">{{ $data['arrival']->group_VA }}</td>
+                            <td style="text-align:center;">{{ $data['arrival']->group_VB }}</td>
+                            <td style="text-align:center;">{{ $data['arrival']->group_VIA }}</td>
+                            <td style="text-align:center;">{{ $data['arrival']->group_VIB }}</td>
+                            <td style="text-align:center;">{{ $data['arrival']->group_VII }}</td>
+                            <td style="text-align:center;">{{ $data['arrival']->group_VIII }}</td>
+                            <td style="text-align:center;">{{ $data['arrival']->group_IX }}</td>
                             <td style="text-align:center;background-color: yellow;">
-                                {{ $data->load_factor_passenger }}
+                                {{ $data['arrival']->group_IVA + $data['arrival']->group_IVB + $data['arrival']->group_VA + $data['arrival']->group_VB + $data['arrival']->group_VIA + $data['arrival']->group_VIB + $data['arrival']->group_VII + $data['arrival']->group_VIII + $data['arrival']->group_IX }}
                             </td>
                             <td style="text-align:center;background-color: yellow;">
-                                {{ $data->load_factor_vehicle }}
+                                {{ $data['arrival']->load_factor_passenger }}
                             </td>
-                            <td style="text-align:center;background-color: yellow;">{{ $data->bulk_goods }}</td>
                             <td style="text-align:center;background-color: yellow;">
-                                {{ $data->description_bulk_goods }}
+                                {{ $data['arrival']->load_factor_vehicle }}
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">{{ $data['arrival']->bulk_goods }}
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                {{ $data['arrival']->description_bulk_goods }}
+                            </td>
+                        </tr>
+                    @else
+                        <tr>
+                            <td style="text-align:center;">{{ $loop->iteration }}</td>
+                            <td style="text-align:center;">
+                                {{ \Carbon\Carbon::parse($date)->isoFormat('dddd') }}
+                            </td>
+                            <td style="text-align:center;">
+                                {{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }}
+                            </td>
+                            <td style="text-align:center;"></td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -</td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;"></td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">-
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
                             </td>
                         </tr>
                     @endif
@@ -146,6 +205,7 @@
 
 
                 @php
+                    $total_trip = 0;
                     $total_passenger_capacity = 0;
                     $total_vehicle_capacity = 0;
                     $total_adult_passenger = 0;
@@ -169,39 +229,40 @@
                     $total_bulk_goods = 0;
                 @endphp
 
-                @foreach ($manifests as $data)
-                    @if ($data->type == 1)
+                @foreach ($datesInMonth as $date => $data)
+                    @if ($data['arrival'])
                         @php
-                            $total_passenger_capacity += $data->schedule->ship->passenger_capacity;
-                            $total_vehicle_capacity += $data->schedule->ship->vehicle_capacity;
-                            $total_adult_passenger += $data->adult_passenger;
-                            $total_child_passenger += $data->child_passenger;
-                            $total_vehicle_passenger += $data->vehicle_passenger;
-                            $total_group_I += $data->group_I;
-                            $total_group_II += $data->group_II;
-                            $total_group_III += $data->group_III;
-                            $total_group_IVA += $data->group_IVA;
-                            $total_group_IVB += $data->group_IVB;
-                            $total_group_VA += $data->group_VA;
-                            $total_group_VB += $data->group_VB;
-                            $total_group_VIA += $data->group_VIA;
-                            $total_group_VIB += $data->group_VIB;
-                            $total_group_VII += $data->group_VII;
-                            $total_group_VIII += $data->group_VIII;
-                            $total_group_IX += $data->group_IX;
-                            $total_load_factor_passenger += $data->load_factor_passenger;
-                            $total_load_factor_vehicle += $data->load_factor_vehicle;
+                            $total_trip++;
+                            $total_passenger_capacity += $data['arrival']->schedule->ship->passenger_capacity;
+                            $total_vehicle_capacity += $data['arrival']->schedule->ship->vehicle_capacity;
+                            $total_adult_passenger += $data['arrival']->adult_passenger;
+                            $total_child_passenger += $data['arrival']->child_passenger;
+                            $total_vehicle_passenger += $data['arrival']->vehicle_passenger;
+                            $total_group_I += $data['arrival']->group_I;
+                            $total_group_II += $data['arrival']->group_II;
+                            $total_group_III += $data['arrival']->group_III;
+                            $total_group_IVA += $data['arrival']->group_IVA;
+                            $total_group_IVB += $data['arrival']->group_IVB;
+                            $total_group_VA += $data['arrival']->group_VA;
+                            $total_group_VB += $data['arrival']->group_VB;
+                            $total_group_VIA += $data['arrival']->group_VIA;
+                            $total_group_VIB += $data['arrival']->group_VIB;
+                            $total_group_VII += $data['arrival']->group_VII;
+                            $total_group_VIII += $data['arrival']->group_VIII;
+                            $total_group_IX += $data['arrival']->group_IX;
+                            $total_load_factor_passenger += $data['arrival']->load_factor_passenger;
+                            $total_load_factor_vehicle += $data['arrival']->load_factor_vehicle;
                             $total_group_IV_V_VI_VII_VIII_IX +=
-                                $data->group_IVA +
-                                $data->group_IVB +
-                                $data->group_VA +
-                                $data->group_VB +
-                                $data->group_VIA +
-                                $data->group_VIB +
-                                $data->group_VII +
-                                $data->group_VIII +
-                                $data->group_IX;
-                            $total_bulk_goods += $data->bulk_goods;
+                                $data['arrival']->group_IVA +
+                                $data['arrival']->group_IVB +
+                                $data['arrival']->group_VA +
+                                $data['arrival']->group_VB +
+                                $data['arrival']->group_VIA +
+                                $data['arrival']->group_VIB +
+                                $data['arrival']->group_VII +
+                                $data['arrival']->group_VIII +
+                                $data['arrival']->group_IX;
+                            $total_bulk_goods += $data['arrival']->bulk_goods;
                         @endphp
                     @endif
                 @endforeach
@@ -210,7 +271,7 @@
                     <td colspan="4" style="text-align:center;font-weight: bold;">Jumlah</td>
                     <td style="text-align:center;">{{ $total_passenger_capacity }}</td>
                     <td style="text-align:center;">{{ $total_vehicle_capacity }}</td>
-                    <td style="text-align:center;">{{ $manifests->where('type', 1)->count() }}</td>
+                    <td style="text-align:center;">{{ $total_trip }}</td>
                     <td style="text-align:center;">{{ $total_adult_passenger }}</td>
                     <td style="text-align:center;">{{ $total_child_passenger }}</td>
                     <td style="text-align:center;background-color: yellow;">
@@ -310,59 +371,120 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($manifests as $data)
-                    @if ($data->type == 2)
+                @foreach ($datesInMonth as $date => $data)
+                    @if ($data['departure'])
                         <tr>
                             <td style="text-align:center;">{{ $loop->iteration }}</td>
                             <td style="text-align:center;">
-                                {{ \Carbon\Carbon::parse($data->schedule->departure_time)->format('l') }}</td>
+                                {{ \Carbon\Carbon::parse($date)->isoFormat('dddd') }}
+                            </td>
                             <td style="text-align:center;">
-                                {{ \Carbon\Carbon::parse($data->schedule->departure_time)->format('d F Y') }}</td>
-                            <td style="text-align:center;">{{ $data->schedule->ship->name }}</td>
-                            <td style="text-align:center;">{{ $data->schedule->ship->passenger_capacity }}</td>
-                            <td style="text-align:center;">{{ $data->schedule->ship->vehicle_capacity }}</td>
+                                {{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }}
+                            </td>
+                            <td style="text-align:center;">{{ $data['departure']->schedule->ship->name }}</td>
+                            <td style="text-align:center;">
+                                {{ $data['departure']->schedule->ship->passenger_capacity }}</td>
+                            <td style="text-align:center;">{{ $data['departure']->schedule->ship->vehicle_capacity }}
+                            </td>
                             <td style="text-align:center;">1</td>
-                            <td style="text-align:center;">{{ $data->adult_passenger }}</td>
-                            <td style="text-align:center;">{{ $data->child_passenger }}</td>
+                            <td style="text-align:center;">{{ $data['departure']->adult_passenger }}</td>
+                            <td style="text-align:center;">{{ $data['departure']->child_passenger }}</td>
                             <td style="text-align:center;background-color: yellow;">
-                                {{ $data->adult_passenger + $data->child_passenger }}</td>
-                            <td style="text-align:center;background-color: yellow;">{{ $data->vehicle_passenger }}
+                                {{ $data['departure']->adult_passenger + $data['departure']->child_passenger }}</td>
+                            <td style="text-align:center;background-color: yellow;">
+                                {{ $data['departure']->vehicle_passenger }}
                             </td>
                             <td style="text-align:center;background-color: yellow;">
-                                {{ $data->adult_passenger + $data->child_passenger + $data->vehicle_passenger }}
+                                {{ $data['departure']->adult_passenger + $data['departure']->child_passenger + $data['departure']->vehicle_passenger }}
                             </td>
-                            <td style="text-align:center;">{{ $data->group_I }}</td>
-                            <td style="text-align:center;">{{ $data->group_II }}</td>
-                            <td style="text-align:center;">{{ $data->group_III }}</td>
+                            <td style="text-align:center;">{{ $data['departure']->group_I }}</td>
+                            <td style="text-align:center;">{{ $data['departure']->group_II }}</td>
+                            <td style="text-align:center;">{{ $data['departure']->group_III }}</td>
                             <td style="text-align:center;background-color: yellow;">
-                                {{ $data->group_I + $data->group_II + $data->group_III }}</td>
-                            <td style="text-align:center;">{{ $data->group_IVA }}</td>
-                            <td style="text-align:center;">{{ $data->group_IVB }}</td>
-                            <td style="text-align:center;">{{ $data->group_VA }}</td>
-                            <td style="text-align:center;">{{ $data->group_VB }}</td>
-                            <td style="text-align:center;">{{ $data->group_VIA }}</td>
-                            <td style="text-align:center;">{{ $data->group_VIB }}</td>
-                            <td style="text-align:center;">{{ $data->group_VII }}</td>
-                            <td style="text-align:center;">{{ $data->group_VIII }}</td>
-                            <td style="text-align:center;">{{ $data->group_IX }}</td>
-                            <td style="text-align:center;background-color: yellow;">
-                                {{ $data->group_IVA + $data->group_IVB + $data->group_VA + $data->group_VB + $data->group_VIA + $data->group_VIB + $data->group_VII + $data->group_VIII + $data->group_IX }}
+                                {{ $data['departure']->group_I + $data['departure']->group_II + $data['departure']->group_III }}
                             </td>
+                            <td style="text-align:center;">{{ $data['departure']->group_IVA }}</td>
+                            <td style="text-align:center;">{{ $data['departure']->group_IVB }}</td>
+                            <td style="text-align:center;">{{ $data['departure']->group_VA }}</td>
+                            <td style="text-align:center;">{{ $data['departure']->group_VB }}</td>
+                            <td style="text-align:center;">{{ $data['departure']->group_VIA }}</td>
+                            <td style="text-align:center;">{{ $data['departure']->group_VIB }}</td>
+                            <td style="text-align:center;">{{ $data['departure']->group_VII }}</td>
+                            <td style="text-align:center;">{{ $data['departure']->group_VIII }}</td>
+                            <td style="text-align:center;">{{ $data['departure']->group_IX }}</td>
                             <td style="text-align:center;background-color: yellow;">
-                                {{ $data->load_factor_passenger }}
+                                {{ $data['departure']->group_IVA + $data['departure']->group_IVB + $data['departure']->group_VA + $data['departure']->group_VB + $data['departure']->group_VIA + $data['departure']->group_VIB + $data['departure']->group_VII + $data['departure']->group_VIII + $data['departure']->group_IX }}
                             </td>
                             <td style="text-align:center;background-color: yellow;">
-                                {{ $data->load_factor_vehicle }}
+                                {{ $data['departure']->load_factor_passenger }}
                             </td>
-                            <td style="text-align:center;background-color: yellow;">{{ $data->bulk_goods }}</td>
                             <td style="text-align:center;background-color: yellow;">
-                                {{ $data->description_bulk_goods }}
+                                {{ $data['departure']->load_factor_vehicle }}
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                {{ $data['departure']->bulk_goods }}</td>
+                            <td style="text-align:center;background-color: yellow;">
+                                {{ $data['departure']->description_bulk_goods }}
+                            </td>
+                        </tr>
+                    @else
+                        <tr>
+                            <td style="text-align:center;">{{ $loop->iteration }}</td>
+                            <td style="text-align:center;">
+                                {{ \Carbon\Carbon::parse($date)->isoFormat('dddd') }}
+                            </td>
+                            <td style="text-align:center;">
+                                {{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }}
+                            </td>
+                            <td style="text-align:center;"></td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -</td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;"></td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">-
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
                             </td>
                         </tr>
                     @endif
                 @endforeach
 
                 @php
+                    $total_trip = 0;
                     $total_passenger_capacity = 0;
                     $total_vehicle_capacity = 0;
                     $total_adult_passenger = 0;
@@ -386,39 +508,40 @@
                     $total_bulk_goods = 0;
                 @endphp
 
-                @foreach ($manifests as $data)
-                    @if ($data->type == 2)
+                @foreach ($datesInMonth as $date => $data)
+                    @if ($data['departure'])
                         @php
-                            $total_passenger_capacity += $data->schedule->ship->passenger_capacity;
-                            $total_vehicle_capacity += $data->schedule->ship->vehicle_capacity;
-                            $total_adult_passenger += $data->adult_passenger;
-                            $total_child_passenger += $data->child_passenger;
-                            $total_vehicle_passenger += $data->vehicle_passenger;
-                            $total_group_I += $data->group_I;
-                            $total_group_II += $data->group_II;
-                            $total_group_III += $data->group_III;
-                            $total_group_IVA += $data->group_IVA;
-                            $total_group_IVA += $data->group_IVB;
-                            $total_group_VA += $data->group_VA;
-                            $total_group_VA += $data->group_VB;
-                            $total_group_VIA += $data->group_VIA;
-                            $total_group_VIB += $data->group_VIB;
-                            $total_group_VII += $data->group_VII;
-                            $total_group_VIII += $data->group_VIII;
-                            $total_group_IX += $data->group_IX;
-                            $total_load_factor_passenger += $data->load_factor_passenger;
-                            $total_load_factor_vehicle += $data->load_factor_vehicle;
+                            $total_trip++;
+                            $total_passenger_capacity += $data['departure']->schedule->ship->passenger_capacity;
+                            $total_vehicle_capacity += $data['departure']->schedule->ship->vehicle_capacity;
+                            $total_adult_passenger += $data['departure']->adult_passenger;
+                            $total_child_passenger += $data['departure']->child_passenger;
+                            $total_vehicle_passenger += $data['departure']->vehicle_passenger;
+                            $total_group_I += $data['departure']->group_I;
+                            $total_group_II += $data['departure']->group_II;
+                            $total_group_III += $data['departure']->group_III;
+                            $total_group_IVA += $data['departure']->group_IVA;
+                            $total_group_IVA += $data['departure']->group_IVB;
+                            $total_group_VA += $data['departure']->group_VA;
+                            $total_group_VA += $data['departure']->group_VB;
+                            $total_group_VIA += $data['departure']->group_VIA;
+                            $total_group_VIB += $data['departure']->group_VIB;
+                            $total_group_VII += $data['departure']->group_VII;
+                            $total_group_VIII += $data['departure']->group_VIII;
+                            $total_group_IX += $data['departure']->group_IX;
+                            $total_load_factor_passenger += $data['departure']->load_factor_passenger;
+                            $total_load_factor_vehicle += $data['departure']->load_factor_vehicle;
                             $total_group_IV_V_VI_VII_VIII_IX +=
-                                $data->group_IVA +
-                                $data->group_IVB +
-                                $data->group_VA +
-                                $data->group_VB +
-                                $data->group_VIA +
-                                $data->group_VIB +
-                                $data->group_VII +
-                                $data->group_VIII +
-                                $data->group_IX;
-                            $total_bulk_goods += $data->bulk_goods;
+                                $data['departure']->group_IVA +
+                                $data['departure']->group_IVB +
+                                $data['departure']->group_VA +
+                                $data['departure']->group_VB +
+                                $data['departure']->group_VIA +
+                                $data['departure']->group_VIB +
+                                $data['departure']->group_VII +
+                                $data['departure']->group_VIII +
+                                $data['departure']->group_IX;
+                            $total_bulk_goods += $data['departure']->bulk_goods;
                         @endphp
                     @endif
                 @endforeach
@@ -427,7 +550,7 @@
                     <td colspan="4" style="text-align:center;font-weight: bold;">Jumlah</td>
                     <td style="text-align:center;">{{ $total_passenger_capacity }}</td>
                     <td style="text-align:center;">{{ $total_vehicle_capacity }}</td>
-                    <td style="text-align:center;">{{ $manifests->where('type', 2)->count() }}</td>
+                    <td style="text-align:center;">{{ $total_trip }}</td>
                     <td style="text-align:center;">{{ $total_adult_passenger }}</td>
                     <td style="text-align:center;">{{ $total_child_passenger }}</td>
                     <td style="text-align:center;background-color: yellow;">

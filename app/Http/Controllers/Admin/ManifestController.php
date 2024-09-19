@@ -179,15 +179,49 @@ class ManifestController extends Controller implements HasMiddleware
         $date = DateTime::createFromFormat('!m', $month);
         $month_name = strtoupper($fmt->format($date));
 
-        $manifests = Manifest::with('schedule')
-            ->whereHas('schedule', function ($query) use ($month, $year, $ship) {
-                $query->whereMonth('arrive_time', $month)
-                    ->whereYear('arrive_time', $year)
+        // Tentukan tanggal awal dan akhir bulan
+        $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
+        $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
+
+        // Ambil data manifest keberangkatan dalam rentang tanggal tersebut
+        $departures = Manifest::with('schedule')
+            ->whereHas('schedule', function ($query) use ($startDate, $endDate, $ship) {
+                $query->whereBetween('departure_time', [$startDate, $endDate])
                     ->where('ship_id', $ship);
             })
             ->get();
 
-        $pdf = Pdf::loadView('admin.manifest.report.by-ship', compact('manifests', 'month_name', 'year', 'letter_number', 'letter_date'))->setPaper('8.5x14', 'landscape');
+        // Ambil data manifest kedatangan dalam rentang tanggal tersebut
+        $arrivals = Manifest::with('schedule')
+            ->whereHas('schedule', function ($query) use ($startDate, $endDate, $ship) {
+                $query->whereBetween('arrive_time', [$startDate, $endDate])
+                    ->where('ship_id', $ship);
+            })
+            ->get();
+
+        // Buat array untuk semua tanggal dalam bulan
+        $datesInMonth = [];
+        for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
+            $datesInMonth[$date->format('Y-m-d')] = [
+                'departure' => null,
+                'arrival' => null,
+            ]; // Set null as default
+        }
+
+        // Isi array dengan data keberangkatan yang ada
+        foreach ($departures as $departure) {
+            $departureDate = Carbon::parse($departure->schedule->departure_time)->format('Y-m-d');
+            $datesInMonth[$departureDate]['departure'] = $departure; // Isi dengan manifest keberangkatan jika ada
+        }
+
+        // Isi array dengan data kedatangan yang ada
+        foreach ($arrivals as $arrival) {
+            $arrivalDate = Carbon::parse($arrival->schedule->arrive_time)->format('Y-m-d');
+            $datesInMonth[$arrivalDate]['arrival'] = $arrival; // Isi dengan manifest kedatangan jika ada
+        }
+
+        $pdf = Pdf::loadView('admin.manifest.report.by-ship', compact('datesInMonth', 'month_name', 'year', 'letter_number', 'letter_date'))->setPaper('8.5x14', 'landscape');
+
 
         if ($month && $year && $ship) {
             return $pdf->stream('LAPORAN DATPRO' . $ships->name . '_' . $month . '_' . $year . ' SATPEL PPG.pdf');
