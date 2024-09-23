@@ -38,4 +38,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth'], fu
 
     // Role
     Route::resource('role', App\Http\Controllers\Admin\RoleController::class);
+
+    // Profile 
+    Route::get('/profile', [\App\Http\Controllers\Admin\ProfileController::class, 'index'])->name('profile');
 });
