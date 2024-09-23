@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('sailing_warrants', function (Blueprint $table) {
             $table->id();
             $table->foreignId('schedule_id');
-            $table->dateTime('print_number');
-            $table->dateTime('arrive_number')->nullable();
+            $table->string('print_number');
+            $table->string('arrive_number')->nullable();
             $table->string('departure_number')->nullable();
             $table->text('situation')->nullable();
             $table->text('file');
