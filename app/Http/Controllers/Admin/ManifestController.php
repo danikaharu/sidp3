@@ -185,6 +185,7 @@ class ManifestController extends Controller implements HasMiddleware
 
         // Ambil data manifest keberangkatan dalam rentang tanggal tersebut
         $departures = Manifest::with('schedule')
+            ->where('type', 2)
             ->whereHas('schedule', function ($query) use ($startDate, $endDate, $ship) {
                 $query->whereBetween('departure_time', [$startDate, $endDate])
                     ->where('ship_id', $ship);
@@ -193,6 +194,7 @@ class ManifestController extends Controller implements HasMiddleware
 
         // Ambil data manifest kedatangan dalam rentang tanggal tersebut
         $arrivals = Manifest::with('schedule')
+            ->where('type', 1)
             ->whereHas('schedule', function ($query) use ($startDate, $endDate, $ship) {
                 $query->whereBetween('arrive_time', [$startDate, $endDate])
                     ->where('ship_id', $ship);
