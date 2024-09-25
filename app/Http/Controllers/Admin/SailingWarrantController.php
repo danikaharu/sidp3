@@ -55,7 +55,7 @@ class SailingWarrantController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        $schedules = Schedule::all();
+        $schedules = Schedule::with('originPort', 'destinationPort')->latest()->get();
         return view('admin.sailing-warrant.create', compact('schedules'));
     }
 
@@ -97,9 +97,8 @@ class SailingWarrantController extends Controller implements HasMiddleware
      */
     public function edit(SailingWarrant $sailingwarrant)
     {
-        $ships = Ship::all();
-        $ports = Port::all();
-        return view('admin.sailing-warrant.edit', compact('sailingwarrant', 'ships', 'ports'));
+        $schedules = Schedule::with('originPort', 'destinationPort')->latest()->get();
+        return view('admin.sailing-warrant.edit', compact('sailingwarrant', 'schedules'));
     }
 
     /**

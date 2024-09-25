@@ -4,7 +4,7 @@
 
 <div class="row">
     <div class="col-md-6 mb-6">
-        <label class="form-label" for="basic-default-fullname">Kapal</label>
+        <label class="form-label" for="basic-default-fullname">Kapal Tiba</label>
         <select name="schedule_id" class="select2 form-select @error('schedule_id')
         invalid
     @enderror">
@@ -12,7 +12,9 @@
                 <option value="{{ $schedule->id }}"
                     {{ isset($sailingwarrant) && $sailingwarrant->schedule_id == $schedule->id ? 'selected' : (old('schedule_id') == $schedule->id ? 'selected' : '') }}>
                     {{ $schedule->ship->name }} -
-                    {{ \Carbon\Carbon::parse($schedule->arrive_time)->format('d F Y H:i') }}</option>
+                    {{ \Carbon\Carbon::parse($schedule->arrive_time)->format('d F Y H:i') }} -
+                    {{ $schedule->originPort->name }} {{ $schedule->destinationPort->name }}
+                </option>
             @endforeach
         </select>
         @error('schedule_id')
