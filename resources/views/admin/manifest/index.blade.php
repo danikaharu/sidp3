@@ -1,6 +1,6 @@
 @extends('layouts.admin.index')
 
-@section('title', 'Manifest')
+@section('title', 'Produksi')
 
 @push('style')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
@@ -25,12 +25,12 @@
         <!-- Responsive Table -->
         <div class="card">
             <div class="card-header">
-                <h5>Data Manifest</h5>
+                <h5>Data Produksi</h5>
                 <div class="flex">
                     @can('create manifest')
                         <a class="btn btn-primary" href="{{ route('admin.manifest.create') }}"><i
                                 class="bx bx-plus me-1"></i>Tambah
-                            Manifest</a>
+                            Produksi</a>
                     @endcan
 
                     @can('export manifest')
@@ -63,7 +63,7 @@
             <div class="modal-dialog modal-lg modal-simple modal-print">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel5">Cetak SPB Per Kapal</h5>
+                        <h5 class="modal-title" id="exampleModalLabel5">Cetak Produksi Per Kapal</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('admin.manifests.report.byShip') }}">
@@ -123,7 +123,7 @@
             <div class="modal-dialog modal-lg modal-simple modal-print">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel5">Cetak SPB Per Bulan</h5>
+                        <h5 class="modal-title" id="exampleModalLabel5">Cetak Produksi Per Bulan</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('admin.manifests.report.byMonth') }}">

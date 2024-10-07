@@ -116,7 +116,7 @@
             <li class="menu-item {{ request()->is('admin/manifest', 'admin/manifest/*') ? ' active' : '' }}">
                 <a href="{{ route('admin.manifest.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-file"></i>
-                    <div class="text-truncate">Data Manifest</div>
+                    <div class="text-truncate">Data Produksi</div>
                 </a>
             </li>
         @endcan
