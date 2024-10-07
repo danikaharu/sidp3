@@ -11,7 +11,7 @@
         <h5 class="mb-2">Selamat datang,<span class="h4"> {{ auth()->user()->name }} 👋🏻</span></h5>
         <div class="row">
             <div class="col-lg-6 mb-6">
-                <div class="card h-100">
+                <div class="card mb-2">
                     <div class="d-flex align-items-end row">
                         <div class="col-7">
                             <div class="card-body">
@@ -25,6 +25,23 @@
                                 <p class="card-subtitle text-nowrap mb-3">{{ $ship->company }}</p>
                                 <p class="card-subtitle text-nowrap mb-3">{{ $ship->flag }}</p>
                                 <p class="card-subtitle text-nowrap mb-3">{{ $ship->weight }} GT</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-7">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3 text-nowrap text-primary">Pelabuhan</h5>
+                                <img src="{{ asset('storage/upload/pelabuhan/' . $port->photo) }}" class="img-fluid"
+                                    alt="Pelabuhan">
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="card-body">
+                                <p class="card-subtitle text-nowrap mb-3">Nama Pelabuhan : {{ $port->name }}</p>
+                                <p class="card-subtitle text-nowrap mb-3">Alamat : {{ $port->address }}</p>
                             </div>
                         </div>
                     </div>
