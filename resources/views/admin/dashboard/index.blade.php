@@ -9,52 +9,60 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h5 class="mb-2">Selamat datang,<span class="h4"> {{ auth()->user()->name }} 👋🏻</span></h5>
-        <div class="row">
-            <div class="col-lg-6 mb-6">
-                <div class="card mb-2">
-                    <div class="d-flex align-items-end row">
-                        <div class="col-7">
-                            <div class="card-body">
-                                <h5 class="card-title mb-3 text-nowrap text-primary">{{ $ship->name }}</h5>
+        <div class="row mb-4">
+            <!-- Kolom Kiri (Kapal dan Pelabuhan) -->
+            <div class="col-lg-6 d-flex flex-column">
+                <div class="card mb-4 flex-grow-1">
+                    <!-- Card Kapal -->
+                    <div class="d-flex align-items-start row">
+                        <div class="col-sm-3 text-center text-sm-left">
+                            <div class="card-body pb-0 px-2 px-md-3">
+                                <h5 class="card-title text-nowrap text-primary mb-3">{{ $ship->name }}</h5>
                                 <img src="{{ asset('storage/upload/kapal/' . $ship->photo) }}" class="img-fluid"
                                     alt="Kapal">
                             </div>
                         </div>
-                        <div class="col-5">
+                        <div class="col-sm-9">
                             <div class="card-body">
-                                <p class="card-subtitle text-nowrap mb-3">{{ $ship->company }}</p>
-                                <p class="card-subtitle text-nowrap mb-3">{{ $ship->flag }}</p>
-                                <p class="card-subtitle text-nowrap mb-3">{{ $ship->weight }} GT</p>
+                                <p class="mb-2">{{ $ship->company }}</p>
+                                <p class="mb-2">{{ $ship->flag }}</p>
+                                <p class="mb-2">{{ $ship->weight }} GT</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="d-flex align-items-end row">
-                        <div class="col-7">
-                            <div class="card-body">
-                                <h5 class="card-title mb-3 text-nowrap text-primary">Pelabuhan</h5>
+
+                <div class="card flex-grow-1">
+                    <!-- Card Pelabuhan -->
+                    <div class="d-flex align-items-start row">
+                        <div class="col-sm-3 text-center text-sm-left">
+                            <div class="card-body pb-0 px-2 px-md-3">
+                                <h5 class="card-title text-nowrap text-primary mb-3">Pelabuhan</h5>
                                 <img src="{{ asset('storage/upload/pelabuhan/' . $port->photo) }}" class="img-fluid"
                                     alt="Pelabuhan">
                             </div>
                         </div>
-                        <div class="col-5">
+                        <div class="col-sm-9">
                             <div class="card-body">
-                                <p class="card-subtitle text-nowrap mb-3">Nama Pelabuhan : {{ $port->name }}</p>
-                                <p class="card-subtitle text-nowrap mb-3">Alamat : {{ $port->address }}</p>
+                                <p class="card-subtitle mb-2">Nama Pelabuhan: {{ $port->name }}</p>
+                                <p class="card-subtitle mb-2">Alamat: {{ $port->address }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 mb-6">
-                <div class="card h-100">
+
+            <!-- Kolom Kanan (Calendar) -->
+            <div class="col-lg-6 d-flex">
+                <div class="card w-100">
                     <div class="card-body">
-                        <div id="calendar"></div>
+                        <div id="calendar" style="min-height: 300px;"></div>
                     </div>
                 </div>
             </div>
         </div>
+
+
         <div class="card">
             <div class="d-flex align-items-start row">
                 <div class="col-sm-3 text-center text-sm-left">
