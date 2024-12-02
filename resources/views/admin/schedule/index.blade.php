@@ -1,6 +1,6 @@
 @extends('layouts.admin.index')
 
-@section('title', 'Jadwal')
+@section('title', 'Jadwal Kapal')
 
 @push('style')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
@@ -25,12 +25,18 @@
         <!-- Responsive Table -->
         <div class="card">
             <div class="card-header">
-                <h5>Data Jadwal</h5>
+                <h5>Data Jadwal Kapal</h5>
                 @can('create schedule')
                     <div class="flex">
-                        <a class="btn btn-primary" href="{{ route('admin.schedule.create') }}"><i
-                                class="bx bx-plus me-1"></i>Tambah
-                            Jadwal</a>
+                        @if ($type == 'arrival')
+                            <a class="btn btn-primary" href="{{ route('admin.schedules.create', ['type' => '1']) }}">
+                                <i class="bx bx-plus me-1"></i>Tambah Jadwal Kedatangan
+                            </a>
+                        @elseif($type == 'departure')
+                            <a class="btn btn-primary ms-2" href="{{ route('admin.schedules.create', ['type' => '2']) }}">
+                                <i class="bx bx-plus me-1"></i>Tambah Jadwal Keberangkatan
+                            </a>
+                        @endif
                     </div>
                 @endcan
             </div>
@@ -41,8 +47,7 @@
                             <th>#</th>
                             <th>Nama Kapal</th>
                             <th>Pelabuhan</th>
-                            <th>Waktu Kedatangan</th>
-                            <th>Waktu Keberangkatan</th>
+                            <th>Bulan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -82,10 +87,7 @@
                         data: 'port',
                     },
                     {
-                        data: 'arrive_time',
-                    },
-                    {
-                        data: 'departure_time',
+                        data: 'time',
                     },
                     {
                         data: 'action',

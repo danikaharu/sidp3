@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('ship_id');
             $table->tinyInteger('origin_port');
             $table->tinyInteger('destination_port');
-            $table->dateTime('arrive_time');
-            $table->dateTime('departure_time');
+            $table->dateTime('time');
+            $table->tinyInteger('type');
             $table->timestamps();
         });
     }

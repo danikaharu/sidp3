@@ -12,7 +12,7 @@
                         <h5 class="mb-0">Edit Data Jadwal</h5>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('admin.schedule.update', $schedule->id) }}" method="POST"
+                        <form action="{{ route('admin.schedules.update', $schedule->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')

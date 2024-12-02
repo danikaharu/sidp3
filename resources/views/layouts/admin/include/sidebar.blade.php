@@ -95,13 +95,27 @@
         @endcan
 
         @can('view schedule')
-            <li class="menu-item {{ request()->is('admin/schedule', 'admin/schedule/*') ? ' active' : '' }}">
-                <a href="{{ route('admin.schedule.index') }}" class="menu-link">
+            <li class="menu-item {{ request()->is('admin/schedules*') ? ' active open' : '' }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons bx bxs-calendar-event"></i>
                     <div class="text-truncate">Data Jadwal</div>
                 </a>
+                <!-- Submenu Keberangkatan dan Kedatangan -->
+                <ul class="menu-sub">
+                    <li class="menu-item {{ request()->is('admin/schedules/1') ? ' active' : '' }}">
+                        <a href="{{ route('admin.schedules.index', ['type' => 1]) }}" class="menu-link">
+                            <div class="text-truncate">Kedatangan</div>
+                        </a>
+                    </li>
+                    <li class="menu-item {{ request()->is('admin/schedules/2') ? ' active' : '' }}">
+                        <a href="{{ route('admin.schedules.index', ['type' => 2]) }}" class="menu-link">
+                            <div class="text-truncate">Keberangkatan</div>
+                        </a>
+                    </li>
+                </ul>
             </li>
         @endcan
+
 
         @can('view sailing warrant')
             <li class="menu-item {{ request()->is('admin/sailingwarrant', 'admin/sailingwarrant/*') ? ' active' : '' }}">

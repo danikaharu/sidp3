@@ -22,7 +22,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth'], fu
     Route::resource('ship', App\Http\Controllers\Admin\ShipController::class);
 
     // Schedule
-    Route::resource('schedule', App\Http\Controllers\Admin\ScheduleController::class);
+    // Route::resource('schedule', App\Http\Controllers\Admin\ScheduleController::class);
+    Route::get('/schedules/{type}', [App\Http\Controllers\Admin\ScheduleController::class, 'index'])->name('schedules.index');
+    Route::get('/schedules/create/{type}', [App\Http\Controllers\Admin\ScheduleController::class, 'create'])->name('schedules.create');
+    Route::post('/schedules/store', [App\Http\Controllers\Admin\ScheduleController::class, 'store'])->name('schedules.store');
+    Route::get('/schedules/{schedule}/edit', [App\Http\Controllers\Admin\ScheduleController::class, 'edit'])->name('schedules.edit');
+    Route::put('/schedules/{schedule}', [App\Http\Controllers\Admin\ScheduleController::class, 'update'])->name('schedules.update');
+    Route::delete('/schedules/{schedule}', [App\Http\Controllers\Admin\ScheduleController::class, 'destroy'])->name('schedules.destroy');
+    Route::get('/schedules/detail/{ship_id}/{month}/{year}', [App\Http\Controllers\Admin\ScheduleController::class, 'detailShip'])->name('schedules.detailShip');
 
     // Sailing Warrant
     Route::resource('sailingwarrant', App\Http\Controllers\Admin\SailingWarrantController::class);

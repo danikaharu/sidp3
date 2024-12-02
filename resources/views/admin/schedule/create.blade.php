@@ -12,7 +12,7 @@
                         <h5 class="mb-0">Input Data Jadwal</h5>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('admin.schedule.store') }}" method="POST">
+                        <form action="{{ route('admin.schedules.store') }}" method="POST">
                             @csrf
 
                             @include('admin.schedule.include.form')

@@ -1,16 +1,11 @@
 <div class="d-flex">
-    @can('edit schedule')
-        <a class="btn btn-warning me-2" href="{{ route('admin.schedule.edit', $id) }}"><i class="bx bx-edit-alt me-1"></i>
-            Edit</a>
-    @endcan
 
-    @can('delete schedule')
-        <form action="{{ route('admin.schedule.destroy', $id) }}" method="POST" role="alert" alert-title="Hapus Data"
-            alert-text="Yakin ingin menghapusnya?">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger me-2"><i class="bx bx-trash">Hapus</i>
-            </button>
-        </form>
-    @endcan
+    <a class="btn btn-info me-2"
+        href="{{ route('admin.schedules.detailShip', [
+            'ship_id' => $ship_id,
+            'month' => \Carbon\Carbon::parse($time)->month,
+            'year' => \Carbon\Carbon::parse($time)->year,
+        ]) }}">
+        <i class="bx bx-show me-1"></i> Detail
+    </a>
 </div>

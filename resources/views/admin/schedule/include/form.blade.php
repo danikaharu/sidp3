@@ -22,29 +22,27 @@
         @enderror
     </div>
     <div class="col-md-6 mb-6">
-        <label class="form-label" for="basic-default-fullname">Waktu Tiba</label>
-        <input type="text" name="arrive_time"
-            class="form-control @error('arrive_time')
+        <label class="form-label" for="basic-default-fullname">Waktu</label>
+        <input type="text" name="time"
+            class="form-control @error('time')
             invalid
         @enderror time"
-            value="{{ isset($schedule) ? $schedule->arrive_time : old('arrive_time') }}">
-        @error('arrive_time')
+            value="{{ isset($schedule) ? $schedule->time : old('time') }}">
+        @error('time')
             <div class="small text-danger">
                 {{ $message }}
             </div>
         @enderror
     </div>
     <div class="col-md-6 mb-6">
-        <label class="form-label" for="basic-default-fullname">Waktu Berangkat</label>
-        <input type="text" name="departure_time"
-            class="form-control @error('departure_time')
-            invalid
-        @enderror time"
-            value="{{ isset($schedule) ? $schedule->departure_time : old('departure_time') }}">
-        @error('departure_time')
-            <div class="small text-danger">
-                {{ $message }}
-            </div>
+        <label class="form-label" for="recurrence[type]">Pengulangan</label>
+        <select name="recurrence[type]"class="form-select @error('recurrence[type]') is-invalid @enderror">
+            <option disabled selected>--Pilih Pengulangan--</option>
+            <option value="" {{ old('recurrence[type]') == '' ? 'selected' : '' }}>Tidak Ada</option>
+            <option value="weekly" {{ old('recurrence[type]') == 'weekly' ? 'selected' : '' }}>Mingguan</option>
+        </select>
+        @error('recurrence[type]')
+            <div class="small text-danger">{{ $message }}</div>
         @enderror
     </div>
     <div class="col-md-6 mb-6">
@@ -84,6 +82,7 @@
         @enderror
     </div>
 
+    <input type="hidden" name="type" value="{{ isset($schedule) ? $schedule->type : $type }}">
 </div>
 
 @push('script')

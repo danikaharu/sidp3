@@ -8,6 +8,8 @@ use App\Http\Requests\StoreScheduleRequest;
 use App\Http\Requests\UpdateScheduleRequest;
 use App\Models\Port;
 use App\Models\Ship;
+use Carbon\Carbon;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Yajra\DataTables\Facades\DataTables;
@@ -29,10 +31,23 @@ class ScheduleController extends Controller implements HasMiddleware
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($type)
     {
+        $schedules = Schedule::with('ship', 'originPort', 'destinationPort')
+            ->selectRaw('ship_id, type, MONTH(time) as month, MAX(origin_port) as origin_port, MAX(destination_port) as destination_port, MAX(time) as time')
+            ->groupBy('ship_id', 'type', 'month');
+
+        // Menyesuaikan berdasarkan type yang dipilih (departure atau arrival)
+        if ($type == 1) {
+            $schedules = $schedules->where('type', 1);  // Mengambil jadwal kedatangan
+        } elseif ($type == 2) {
+            $schedules = $schedules->where('type', 2);  // Mengambil jadwal keberangkatan
+        }
+
+        $schedules = $schedules->get();
+
         if (request()->ajax()) {
-            $schedules = Schedule::with('ship', 'originPort', 'destinationPort')->latest()->get();
+
             return DataTables::of($schedules)
                 ->addIndexColumn()
                 ->addColumn('ship', function ($row) {
@@ -41,22 +56,25 @@ class ScheduleController extends Controller implements HasMiddleware
                 ->addColumn('port', function ($row) {
                     return $row->originPort->name . '-' . $row->destinationPort->name;
                 })
+                ->addColumn('time', function ($row) {
+                    return Carbon::parse($row->time)->format('F Y');
+                })
                 ->addColumn('action', 'admin.schedule.include.action')
                 ->rawColumns(['action'])
                 ->make(true);
         }
 
-        return view('admin.schedule.index');
+        return view('admin.schedule.index', compact('type'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($type)
     {
         $ships = Ship::all();
         $ports = Port::all();
-        return view('admin.schedule.create', compact('ships', 'ports'));
+        return view('admin.schedule.create', compact('ships', 'ports', 'type'));
     }
 
     /**
@@ -65,13 +83,23 @@ class ScheduleController extends Controller implements HasMiddleware
     public function store(StoreScheduleRequest $request)
     {
         try {
-            $attr = $request->validated();
+            // Buat model jadwal
+            $schedule = new Schedule();
+            $schedule->ship_id = $request->ship_id;
+            $schedule->origin_port = $request->origin_port;
+            $schedule->destination_port = $request->destination_port;
+            $schedule->time = $request->time;
+            $schedule->type = $request->type;
+            $schedule->recurrence = $request->recurrence;
 
-            Schedule::create($attr);
+            // Hasilkan jadwal berulang
+            $occurrences = $schedule->generateOccurrences();
 
-            return redirect()->route('admin.schedule.index')->with('success', 'Data berhasil ditambah');
+            Schedule::insert($occurrences);
+
+            return redirect()->route('admin.schedules.index', ['type' => $request->type])->with('success', 'Data berhasil ditambah');
         } catch (\Throwable $th) {
-            return redirect()->route('admin.schedule.index')->with('error', $th->getMessage());
+            return redirect()->route('admin.schedules.index', ['type' => $request->type])->with('error', $th->getMessage());
         }
     }
 
@@ -80,7 +108,7 @@ class ScheduleController extends Controller implements HasMiddleware
      */
     public function show(Schedule $schedule)
     {
-        //
+        // 
     }
 
     /**
@@ -104,11 +132,11 @@ class ScheduleController extends Controller implements HasMiddleware
             $schedule->update($attr);
 
             return redirect()
-                ->route('admin.schedule.index')
+                ->back()
                 ->with('success', __('Data Berhasil Diubah'));
         } catch (\Throwable $th) {
             return redirect()
-                ->route('admin.port.index')
+                ->back()
                 ->with('error', __($th->getMessage()));
         }
     }
@@ -123,12 +151,26 @@ class ScheduleController extends Controller implements HasMiddleware
             $schedule->delete();
 
             return redirect()
-                ->route('admin.schedule.index')
+                ->back()
                 ->with('success', __('Data Berhasil Dihapus'));
         } catch (\Throwable $th) {
             return redirect()
-                ->route('admin.schedule.index')
+                ->back()
                 ->with('error', __($th->getMessage()));
         }
+    }
+
+    public function detailShip($ship_id, $month, $year)
+    {
+        // Ambil seluruh jadwal berdasarkan ship_id dan bulan/tahun
+        $schedules = Schedule::with('ship', 'originPort', 'destinationPort')
+            ->where('ship_id', $ship_id)
+            ->whereMonth('time', $month)
+            ->whereYear('time', $year)
+            ->orderBy('time')
+            ->get();
+
+        // Menampilkan view dengan jadwal yang telah diambil
+        return view('admin.schedule.detail', compact('schedules'));
     }
 }
