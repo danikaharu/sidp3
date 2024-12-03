@@ -34,7 +34,10 @@ return new class extends Migration
             $table->string('load_factor_vehicle');
             $table->string('bulk_goods');
             $table->string('description_bulk_goods');
+            $table->string('vehicle_load');
+            $table->string('description_vehicle_load');
             $table->string('situation');
+            $table->text('file');
             $table->timestamps();
         });
     }

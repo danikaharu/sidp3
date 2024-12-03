@@ -18,6 +18,7 @@ return new class extends Migration
             $table->tinyInteger('destination_port');
             $table->dateTime('time');
             $table->tinyInteger('type');
+            $table->json('recurrence')->nullable();
             $table->timestamps();
         });
     }

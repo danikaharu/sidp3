@@ -232,7 +232,8 @@ return [
         [
             'group' => 'schedules',
             'lists' => [
-                'view schedule',
+                'view schedule arrival',
+                'view schedule departure',
                 'create schedule',
                 'edit schedule',
                 'delete schedule',
@@ -258,6 +259,15 @@ return [
                 'edit manifest',
                 'delete manifest',
                 'export manifest',
+            ]
+        ],
+        [
+            'group' => 'cargos',
+            'lists' => [
+                'view cargo',
+                'create cargo',
+                'edit cargo',
+                'delete cargo',
             ]
         ],
     ],

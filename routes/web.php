@@ -41,6 +41,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth'], fu
     Route::get('/manifests/report/ship', [App\Http\Controllers\Admin\ManifestController::class, 'reportByShip'])->name('manifests.report.byShip');
     Route::get('/manifests/get-schedules', [App\Http\Controllers\Admin\ManifestController::class, 'getSchedules'])->name('manifests.get.schedules');
 
+    // Cargo
+    Route::resource('cargo', App\Http\Controllers\Admin\CargoController::class);
+    Route::get('/cargos/detail/{manifest_id}', [App\Http\Controllers\Admin\CargoController::class, 'detailManifest'])->name('cargos.detailManifest');
+    Route::get('/cargos/create/{manifest_id}', [App\Http\Controllers\Admin\CargoController::class, 'create'])->name('cargos.create');
 
     // User
     Route::resource('user', App\Http\Controllers\Admin\UserController::class);

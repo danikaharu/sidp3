@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('manifests', function (Blueprint $table) {
-            $table->text('file')->after('situation');
+        Schema::create('cargos', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('manifest_id');
+            $table->string('code');
+            $table->string('name');
+            $table->string('owner');
+            $table->string('weight');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('manifests', function (Blueprint $table) {
-            $table->dropColumn('file');
-        });
+        Schema::dropIfExists('cargos');
     }
 };

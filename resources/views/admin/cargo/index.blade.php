@@ -1,6 +1,6 @@
 @extends('layouts.admin.index')
 
-@section('title', 'Jadwal Kapal')
+@section('title', 'Data Muatan')
 
 @push('style')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
@@ -25,20 +25,7 @@
         <!-- Responsive Table -->
         <div class="card">
             <div class="card-header">
-                <h5>Data Jadwal Kapal</h5>
-                @can('create schedule')
-                    <div class="flex">
-                        @if ($type == 1)
-                            <a class="btn btn-primary" href="{{ route('admin.schedules.create', ['type' => '1']) }}">
-                                <i class="bx bx-plus me-1"></i>Tambah Jadwal Kedatangan
-                            </a>
-                        @elseif($type == 2)
-                            <a class="btn btn-primary ms-2" href="{{ route('admin.schedules.create', ['type' => '2']) }}">
-                                <i class="bx bx-plus me-1"></i>Tambah Jadwal Keberangkatan
-                            </a>
-                        @endif
-                    </div>
-                @endcan
+                <h5>Data Muatan</h5>
             </div>
             <div class="table-responsive text-nowrap">
                 <table class="table" id="listData">
@@ -46,8 +33,9 @@
                         <tr class="text-nowrap">
                             <th>#</th>
                             <th>Nama Kapal</th>
+                            <th>Jenis Manifest</th>
                             <th>Pelabuhan</th>
-                            <th>Bulan</th>
+                            <th>Jadwal</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -83,6 +71,8 @@
                         data: 'DT_RowIndex'
                     }, {
                         data: 'ship',
+                    }, {
+                        data: 'type',
                     }, {
                         data: 'port',
                     },

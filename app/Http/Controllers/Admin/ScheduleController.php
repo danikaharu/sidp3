@@ -9,7 +9,6 @@ use App\Http\Requests\UpdateScheduleRequest;
 use App\Models\Port;
 use App\Models\Ship;
 use Carbon\Carbon;
-use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Yajra\DataTables\Facades\DataTables;
@@ -20,7 +19,7 @@ class ScheduleController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('view schedule'), only: ['index']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('view schedule arrival|view schedule departure'), only: ['index']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('create schedule'), only: ['create', 'store']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('edit schedule'), only: ['edit', 'update']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('delete schedule'), only: ['destroy']),
