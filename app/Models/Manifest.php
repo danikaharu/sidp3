@@ -31,6 +31,8 @@ class Manifest extends Model
         'load_factor_vehicle',
         'bulk_goods',
         'description_bulk_goods',
+        'vehicle_load',
+        'description_vehicle_load',
         'situation',
         'file',
     ];

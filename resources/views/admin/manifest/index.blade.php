@@ -48,6 +48,7 @@
                             <th>#</th>
                             <th>Jenis Manifest</th>
                             <th>Kapal</th>
+                            <th>Jadwal</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -217,6 +218,8 @@
                         data: 'type',
                     }, {
                         data: 'ship',
+                    }, {
+                        data: 'time',
                     },
                     {
                         data: 'action',

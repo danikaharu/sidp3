@@ -43,6 +43,8 @@ class StoreManifestRequest extends FormRequest
             'load_factor_vehicle' => ['required', 'string', 'max:255'],
             'bulk_goods' => ['required', 'regex:/^\d+(\.\d+)?$/'],
             'description_bulk_goods' => ['required', 'string', 'max:255'],
+            'vehicle_load' => ['required', 'regex:/^\d+(\.\d+)?$/'],
+            'description_vehicle_load' => ['required', 'string', 'max:255'],
             'situation' => ['required', 'string', 'max:255'],
             'file' => ['required', 'max:2048', 'mimes:pdf'],
         ];

@@ -4,28 +4,8 @@
 
 <div class="row">
     <div class="col-md-6 mb-6">
-        <label class="form-label" for="basic-default-fullname">Kapal Tiba</label>
-        <select name="schedule_id" class="select2 form-select @error('schedule_id')
-        invalid
-    @enderror">
-            @foreach ($schedules as $schedule)
-                <option value="{{ $schedule->id }}"
-                    {{ isset($sailingwarrant) && $sailingwarrant->schedule_id == $schedule->id ? 'selected' : (old('schedule_id') == $schedule->id ? 'selected' : '') }}>
-                    {{ $schedule->ship->name }} -
-                    {{ \Carbon\Carbon::parse($schedule->arrive_time)->format('d F Y H:i') }} -
-                    {{ $schedule->originPort->name }} {{ $schedule->destinationPort->name }}
-                </option>
-            @endforeach
-        </select>
-        @error('schedule_id')
-            <div class="small text-danger">
-                {{ $message }}
-            </div>
-        @enderror
-    </div>
-    <div class="col-md-6 mb-6">
         <label class="form-label" for="basic-default-fullname">Jenis Manifest</label>
-        <select name="type" class="form-select @error('type')
+        <select id="type" name="type" class="form-select @error('type')
         invalid
     @enderror">
             <option value="" selected dir="">--Pilih Jenis Manifest--</option>
@@ -40,6 +20,20 @@
                 Doking</option>
         </select>
         @error('type')
+            <div class="small text-danger">
+                {{ $message }}
+            </div>
+        @enderror
+    </div>
+    <div class="col-md-6 mb-6">
+        <label class="form-label" for="basic-default-fullname">Jadwal</label>
+        <select id="schedule_id" name="schedule_id"
+            class="select2 form-select @error('schedule_id')
+        invalid
+    @enderror">
+            <option disabled selected>-- Pilih Jadwal --</option>
+        </select>
+        @error('schedule_id')
             <div class="small text-danger">
                 {{ $message }}
             </div>
@@ -285,6 +279,32 @@
         @enderror
     </div>
     <div class="col-md-6 mb-6">
+        <label class="form-label" for="basic-default-fullname">Barang Muatan Kendaraan (Ton)</label>
+        <input type="text" name="vehicle_load"
+            class="form-control @error('vehicle_load')
+        invalid
+    @enderror"
+            value="{{ isset($manifest) ? $manifest->vehicle_load : old('vehicle_load') }}">
+        @error('vehicle_load')
+            <div class="small text-danger">
+                {{ $message }}
+            </div>
+        @enderror
+    </div>
+    <div class="col-md-6 mb-6">
+        <label class="form-label" for="basic-default-fullname">Barang Muatan Kendaraan (Keterangan)</label>
+        <input type="text" name="description_vehicle_load"
+            class="form-control @error('description_vehicle_load')
+        invalid
+    @enderror"
+            value="{{ isset($manifest) ? $manifest->description_vehicle_load : old('description_vehicle_load') }}">
+        @error('description_vehicle_load')
+            <div class="small text-danger">
+                {{ $message }}
+            </div>
+        @enderror
+    </div>
+    <div class="col-md-6 mb-6">
         <label class="form-label" for="basic-default-fullname">Situasi</label>
         <input type="text" name="situation"
             class="form-control @error('situation')
@@ -346,4 +366,48 @@
 @push('script')
     <script src="{{ asset('template_admin/vendor/libs/select2/select2.js') }}"></script>
     <script src="{{ asset('template_admin/vendor/js/forms-selects.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#type').on('change', function() {
+                var manifestType = $(this).val();
+                var scheduleDropdown = $('#schedule_id');
+
+                scheduleDropdown.empty();
+                scheduleDropdown.append('<option value="">Loading...</option>');
+
+                if (manifestType) {
+                    $.ajax({
+                        url: '{{ route('admin.manifests.get.schedules') }}',
+                        type: 'GET',
+                        data: {
+                            type: manifestType
+                        },
+                        success: function(data) {
+                            scheduleDropdown.empty();
+                            scheduleDropdown.append('<option value="">Pilih Jadwal</option>');
+
+                            $.each(data, function(key, schedule) {
+                                console.log(schedule);
+                                scheduleDropdown.append(
+                                    '<option value="' + schedule.id + '">' +
+                                    schedule.origin_port.name + ' - ' + schedule
+                                    .destination_port.name + ' (' + schedule.time +
+                                    ')' +
+                                    '</option>'
+                                );
+                            });
+                        },
+                        error: function() {
+                            scheduleDropdown.empty();
+                            scheduleDropdown.append(
+                                '<option value="">Error memuat jadwal</option>');
+                        }
+                    });
+                } else {
+                    scheduleDropdown.empty();
+                    scheduleDropdown.append('<option value="">Pilih Jadwal</option>');
+                }
+            });
+        });
+    </script>
 @endpush

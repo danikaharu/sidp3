@@ -47,6 +47,9 @@ class ManifestController extends Controller implements HasMiddleware
                 ->addColumn('ship', function ($row) {
                     return $row->schedule ? $row->schedule->ship->name : '-';
                 })
+                ->addColumn('time', function ($row) {
+                    return $row->schedule ? $row->schedule->time : '-';
+                })
                 ->addColumn('action', 'admin.manifest.include.action')
                 ->rawColumns(['action'])
                 ->make(true);
@@ -187,7 +190,7 @@ class ManifestController extends Controller implements HasMiddleware
         $departures = Manifest::with('schedule')
             ->where('type', 2)
             ->whereHas('schedule', function ($query) use ($startDate, $endDate, $ship) {
-                $query->whereBetween('departure_time', [$startDate, $endDate])
+                $query->whereBetween('time', [$startDate, $endDate])
                     ->where('ship_id', $ship);
             })
             ->get();
@@ -196,7 +199,7 @@ class ManifestController extends Controller implements HasMiddleware
         $arrivals = Manifest::with('schedule')
             ->where('type', 1)
             ->whereHas('schedule', function ($query) use ($startDate, $endDate, $ship) {
-                $query->whereBetween('arrive_time', [$startDate, $endDate])
+                $query->whereBetween('time', [$startDate, $endDate])
                     ->where('ship_id', $ship);
             })
             ->get();
@@ -222,7 +225,7 @@ class ManifestController extends Controller implements HasMiddleware
             $datesInMonth[$arrivalDate]['arrival'] = $arrival; // Isi dengan manifest kedatangan jika ada
         }
 
-        $pdf = Pdf::loadView('admin.manifest.report.by-ship', compact('datesInMonth', 'month_name', 'year', 'letter_number', 'letter_date'))->setPaper('8.5x14', 'landscape');
+        $pdf = Pdf::loadView('admin.manifest.report.by-ship', compact('datesInMonth', 'month_name', 'year', 'letter_number', 'letter_date'))->setPaper('A3', 'landscape');
 
 
         if ($month && $year && $ship) {
@@ -246,7 +249,7 @@ class ManifestController extends Controller implements HasMiddleware
         $month_name = $fmt->format($date);
 
         $manifests = Manifest::select(
-            'type',
+            'manifests.type',
             'origin_ports.name as origin_port_name',
             'destination_ports.name as destination_port_name',
             'ships.name as ship_name',
@@ -268,14 +271,15 @@ class ManifestController extends Controller implements HasMiddleware
             DB::raw('SUM(group_VIII) as total_group_VIII'),
             DB::raw('SUM(group_IX) as total_group_IX'),
             DB::raw('SUM(group_I + group_II + group_III + group_IVA + group_IVB + group_VA + group_VB + group_VIA + group_VIB + group_VII + group_VIII + group_IX) as total_all_groups'),
-            DB::raw('SUM(bulk_goods) as total_bulk_goods')
+            DB::raw('SUM(bulk_goods) as total_bulk_goods'),
+            DB::raw('SUM(vehicle_load) as total_vehicle_load'),
         )
             ->join('schedules', 'manifests.schedule_id', '=', 'schedules.id')
             ->join('ships', 'schedules.ship_id', '=', 'ships.id')
             ->join('ports as origin_ports', 'schedules.origin_port', '=', 'origin_ports.id')
             ->join('ports as destination_ports', 'schedules.destination_port', '=', 'destination_ports.id')
             ->groupBy(
-                'type',
+                'manifests.type',
                 'origin_ports.name',
                 'destination_ports.name',
                 'ships.name',
@@ -285,12 +289,28 @@ class ManifestController extends Controller implements HasMiddleware
             )
             ->get();
 
-        $pdf = Pdf::loadView('admin.manifest.report.by-month', compact('manifests', 'month_name', 'year', 'letter_number', 'letter_date', 'official_name', 'official_nip'))->setPaper('8.5x14', 'landscape');
+        $pdf = Pdf::loadView('admin.manifest.report.by-month', compact('manifests', 'month_name', 'year', 'letter_number', 'letter_date', 'official_name', 'official_nip'))
+            ->setPaper('A3', 'landscape');
 
         if ($month && $year) {
             return $pdf->stream('laporan produksi_' . $month_name . '_' . $year . '.pdf');
         } else {
             return redirect()->back()->with('toast_error', 'Maaf, tidak bisa export data');
         }
+    }
+
+    public function getSchedules(Request $request)
+    {
+        $type = $request->type;
+
+        $schedules = Schedule::with(['originPort', 'destinationPort']);
+
+        if ($type == 1) {
+            $schedules->where('type', 1);
+        } elseif ($type == 2) {
+            $schedules->where('type', 2);
+        }
+
+        return response()->json($schedules->get());
     }
 }

@@ -7,18 +7,50 @@
 </head>
 
 <body>
-    <style type="text/css">
+    <style>
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0;
+            font-size: 10px;
+        }
+
         .table-border {
             border: 1px solid black;
             border-collapse: collapse;
             width: 100%;
+            font-family: Arial, sans-serif;
         }
 
-        .table-border tr td,
-        .table-border tr th {
+        .table-border th {
             border: 1px solid black;
-            padding: 3px;
-            width: auto;
+            padding: 8px;
+            text-align: center;
+            /* Warna header */
+            color: black;
+            font-weight: bold;
+        }
+
+        .table-border td {
+            border: 1px solid black;
+            padding: 6px;
+            text-align: center;
+            /* Sesuaikan jika perlu */
+        }
+
+        .table-border tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+            /* Warna baris genap */
+        }
+
+        .table-border tbody tr:hover {
+            background-color: #ddd;
+            /* Warna saat baris di-hover */
+        }
+
+        .highlight {
+            background-color: yellow;
+            /* Penyorotan kolom penting */
+            font-weight: bold;
         }
     </style>
 
@@ -28,11 +60,11 @@
         <h5 style="margin: 0;">BULAN {{ $month_name }} {{ $year }}</h5>
     </center>
 
-    <div style="margin: 5% 0;">
+    <div class="table-wrapper">
         <table class='table-border'>
             <thead>
                 <tr>
-                    <th colspan="30" style="text-align: center;background-color: blue;color: white;">KEDATANGAN</th>
+                    <th colspan="32" style="text-align: center;background-color: blue;color: white;">KEDATANGAN</th>
                 </tr>
                 <tr>
                     <th rowspan="3" style="text-align:center;vertical-align:middle;">No.</th>
@@ -58,6 +90,8 @@
                         Factor (%)</th>
                     <th colspan="2" style="text-align:center;vertical-align:middle;background-color: yellow;">Barang
                         Curah (Ton)</th>
+                    <th colspan="2" style="text-align:center;vertical-align:middle;background-color: yellow;">Barang
+                        Muatan (Ton)</th>
                 </tr>
                 <tr>
                     <th rowspan="2" style="text-align:center;vertical-align:middle;">Pnp</th>
@@ -77,6 +111,10 @@
                     </th>
                     <th rowspan="2" style="text-align:center;vertical-align:middle;background-color: yellow;">Kend.
                         Gol. IV / ></th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;background-color: yellow;">TON
+                    </th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;background-color: yellow;">KET
+                    </th>
                     <th rowspan="2" style="text-align:center;vertical-align:middle;background-color: yellow;">TON
                     </th>
                     <th rowspan="2" style="text-align:center;vertical-align:middle;background-color: yellow;">KET
@@ -146,6 +184,12 @@
                             <td style="text-align:center;background-color: yellow;">
                                 {{ $data['arrival']->description_bulk_goods }}
                             </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                {{ $data['arrival']->vehicle_load }}
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                {{ $data['arrival']->description_vehicle_load }}
+                            </td>
                         </tr>
                     @else
                         <tr>
@@ -199,6 +243,12 @@
                             <td style="text-align:center;background-color: yellow;">
                                 -
                             </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
                         </tr>
                     @endif
                 @endforeach
@@ -227,6 +277,7 @@
                     $total_load_factor_passenger = 0;
                     $total_load_factor_vehicle = 0;
                     $total_bulk_goods = 0;
+                    $total_vehicle_load = 0;
                 @endphp
 
                 @foreach ($datesInMonth as $date => $data)
@@ -263,6 +314,7 @@
                                 $data['arrival']->group_VIII +
                                 $data['arrival']->group_IX;
                             $total_bulk_goods += $data['arrival']->bulk_goods;
+                            $total_vehicle_load += $data['arrival']->vehicle_load;
                         @endphp
                     @endif
                 @endforeach
@@ -300,17 +352,20 @@
                     <td style="text-align:center;background-color: yellow;">{{ $total_bulk_goods }}
                     </td>
                     <td style="text-align:center;background-color: yellow;"></td>
+                    <td style="text-align:center;background-color: yellow;">{{ $total_vehicle_load }}
+                    </td>
+                    <td style="text-align:center;background-color: yellow;"></td>
                 </tr>
 
             </tbody>
         </table>
     </div>
 
-    <div style="margin: 5% 0;page-break-before: always;">
+    <div class="table-wrapper" style="page-break-before: always;">
         <table class='table-border'>
             <thead>
                 <tr>
-                    <th colspan="30" style="text-align: center;background-color: red;color: white;">KEBERANGKATAN
+                    <th colspan="32" style="text-align: center;background-color: red;color: white;">KEBERANGKATAN
                     </th>
                 </tr>
                 <tr>
@@ -337,6 +392,8 @@
                         Factor (%)</th>
                     <th colspan="2" style="text-align:center;vertical-align:middle;background-color: yellow;">
                         Barang Curah (Ton)</th>
+                    <th colspan="2" style="text-align:center;vertical-align:middle;background-color: yellow;">
+                        Barang Muatan Kendaraan (Ton)</th>
                 </tr>
                 <tr>
                     <th rowspan="2" style="text-align:center;vertical-align:middle;">Pnp</th>
@@ -356,6 +413,10 @@
                     </th>
                     <th rowspan="2" style="text-align:center;vertical-align:middle;background-color: yellow;">Kend.
                         Gol. IV / ></th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;background-color: yellow;">TON
+                    </th>
+                    <th rowspan="2" style="text-align:center;vertical-align:middle;background-color: yellow;">KET
+                    </th>
                     <th rowspan="2" style="text-align:center;vertical-align:middle;background-color: yellow;">TON
                     </th>
                     <th rowspan="2" style="text-align:center;vertical-align:middle;background-color: yellow;">KET
@@ -426,6 +487,11 @@
                             <td style="text-align:center;background-color: yellow;">
                                 {{ $data['departure']->description_bulk_goods }}
                             </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                {{ $data['departure']->vehicle_load }}</td>
+                            <td style="text-align:center;background-color: yellow;">
+                                {{ $data['departure']->description_vehicle_load }}
+                            </td>
                         </tr>
                     @else
                         <tr>
@@ -479,6 +545,12 @@
                             <td style="text-align:center;background-color: yellow;">
                                 -
                             </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
+                            <td style="text-align:center;background-color: yellow;">
+                                -
+                            </td>
                         </tr>
                     @endif
                 @endforeach
@@ -506,6 +578,7 @@
                     $total_load_factor_passenger = 0;
                     $total_load_factor_vehicle = 0;
                     $total_bulk_goods = 0;
+                    $total_vehicle_load = 0;
                 @endphp
 
                 @foreach ($datesInMonth as $date => $data)
@@ -542,6 +615,7 @@
                                 $data['departure']->group_VIII +
                                 $data['departure']->group_IX;
                             $total_bulk_goods += $data['departure']->bulk_goods;
+                            $total_vehicle_load += $data['departure']->vehicle_load;
                         @endphp
                     @endif
                 @endforeach
@@ -577,6 +651,9 @@
                     <td style="text-align:center;background-color: yellow;">{{ $total_load_factor_passenger }}</td>
                     <td style="text-align:center;background-color: yellow;">{{ $total_load_factor_vehicle }}</td>
                     <td style="text-align:center;background-color: yellow;">{{ $total_bulk_goods }}
+                    </td>
+                    <td style="text-align:center;background-color: yellow;"></td>
+                    <td style="text-align:center;background-color: yellow;">{{ $total_vehicle_load }}
                     </td>
                     <td style="text-align:center;background-color: yellow;"></td>
                 </tr>

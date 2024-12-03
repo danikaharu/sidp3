@@ -32,7 +32,9 @@
                         </tr>
                         <tr>
                             <td><strong>Jadwal</strong></td>
-                            <td>{{ \Carbon\Carbon::parse($manifest->schedule->arrive_time)->format('l, d F Y H:i') }}</td>
+                            <td>
+                                {{ \Carbon\Carbon::parse($manifest->schedule->time)->format('l, d F Y H:i') }}
+                            </td>
                         </tr>
                         <tr>
                             <td><strong>Kapal</strong></td>
@@ -113,6 +115,14 @@
                         <tr>
                             <td><strong>Barang Curah (Keterangan)</strong></td>
                             <td>{{ $manifest->description_bulk_goods }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Barang Muatan Kendaraan (Ton)</strong></td>
+                            <td>{{ $manifest->vehicle_load }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Barang Muatan Kendaraan (Keterangan)</strong></td>
+                            <td>{{ $manifest->description_vehicle_load }}</td>
                         </tr>
                         <tr>
                             <td><strong>Situasi</strong></td>
