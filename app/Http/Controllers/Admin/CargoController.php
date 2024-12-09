@@ -90,14 +90,29 @@ class CargoController extends Controller implements HasMiddleware
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Cargo $cargo) {}
+    public function edit(Cargo $cargo)
+    {
+        return view('admin.cargo.edit', compact('cargo'));
+    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateCargoRequest $request, Cargo $cargo)
     {
-        //
+        try {
+            $attr = $request->validated();
+
+            $cargo->update($attr);
+
+            return redirect()
+                ->route('admin.cargo.index')
+                ->with('success', __('Data Berhasil Diubah'));
+        } catch (\Throwable $th) {
+            return redirect()
+                ->route('admin.cargo.index')
+                ->with('error', __($th->getMessage()));
+        }
     }
 
     /**

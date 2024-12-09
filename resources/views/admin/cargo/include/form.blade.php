@@ -51,7 +51,7 @@
             </div>
         @enderror
     </div>
-    <input type="hidden" name="manifest_id" value="{{ $manifest_id }}">
+    <input type="hidden" name="manifest_id" value="{{ isset($cargo) ? $cargo->manifest_id : $manifest_id }}">
 </div>
 
 @push('script')

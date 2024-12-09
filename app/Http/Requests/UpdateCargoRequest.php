@@ -11,7 +11,7 @@ class UpdateCargoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateCargoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'manifest_id' => ['required', 'exists:manifests,id'],
+            'code' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'owner' => ['required', 'string', 'max:255'],
+            'weight' => ['required', 'string', 'max:255'],
         ];
     }
 }
