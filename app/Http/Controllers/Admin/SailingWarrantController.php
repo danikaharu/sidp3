@@ -55,7 +55,8 @@ class SailingWarrantController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        $schedules = Schedule::with('originPort', 'destinationPort')->latest()->get();
+        $schedules = Schedule::where('type', 1)->with('originPort', 'destinationPort')->latest()->get();
+
         return view('admin.sailing-warrant.create', compact('schedules'));
     }
 
@@ -171,8 +172,8 @@ class SailingWarrantController extends Controller implements HasMiddleware
 
         $sailingWarrants = SailingWarrant::with('schedule')
             ->whereHas('schedule', function ($query) use ($month, $year) {
-                $query->whereMonth('arrive_time', $month)
-                    ->whereYear('arrive_time', $year);
+                $query->whereMonth('time', $month)
+                    ->whereYear('time', $year);
             })
             ->get();
 

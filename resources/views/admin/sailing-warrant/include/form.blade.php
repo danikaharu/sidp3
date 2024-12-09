@@ -24,7 +24,7 @@
                 <option value="{{ $schedule->id }}"
                     {{ isset($sailingwarrant) && $sailingwarrant->schedule_id == $schedule->id ? 'selected' : (old('schedule_id') == $schedule->id ? 'selected' : '') }}>
                     {{ $schedule->ship->name }} -
-                    {{ \Carbon\Carbon::parse($schedule->arrive_time)->format('d F Y H:i') }} -
+                    {{ \Carbon\Carbon::parse($schedule->time)->format('d F Y H:i') }} -
                     {{ $schedule->originPort->name }} {{ $schedule->destinationPort->name }}</option>
             @endforeach
         </select>
