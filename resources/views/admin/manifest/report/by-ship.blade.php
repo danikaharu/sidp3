@@ -255,6 +255,7 @@
 
 
                 @php
+                    // Inisialisasi total
                     $total_trip = 0;
                     $total_passenger_capacity = 0;
                     $total_vehicle_capacity = 0;
@@ -283,38 +284,48 @@
                 @foreach ($datesInMonth as $date => $data)
                     @if ($data['arrival'])
                         @php
+                            // Pastikan nilai numerik
+                            $passenger_capacity = (int) ($data['arrival']->schedule->ship->passenger_capacity ?? 0);
+                            $vehicle_capacity = (int) ($data['arrival']->schedule->ship->vehicle_capacity ?? 0);
+                            $adult_passenger = (int) ($data['arrival']->adult_passenger ?? 0);
+                            $child_passenger = (int) ($data['arrival']->child_passenger ?? 0);
+                            $vehicle_passenger = (int) ($data['arrival']->vehicle_passenger ?? 0);
+                            $bulk_goods = (float) str_replace(',', '.', $data['arrival']->bulk_goods ?? 0);
+                            $vehicle_load = (float) str_replace(',', '.', $data['arrival']->vehicle_load ?? 0);
+
+                            // Update total
                             $total_trip++;
-                            $total_passenger_capacity += $data['arrival']->schedule->ship->passenger_capacity;
-                            $total_vehicle_capacity += $data['arrival']->schedule->ship->vehicle_capacity;
-                            $total_adult_passenger += $data['arrival']->adult_passenger;
-                            $total_child_passenger += $data['arrival']->child_passenger;
-                            $total_vehicle_passenger += $data['arrival']->vehicle_passenger;
-                            $total_group_I += $data['arrival']->group_I;
-                            $total_group_II += $data['arrival']->group_II;
-                            $total_group_III += $data['arrival']->group_III;
-                            $total_group_IVA += $data['arrival']->group_IVA;
-                            $total_group_IVB += $data['arrival']->group_IVB;
-                            $total_group_VA += $data['arrival']->group_VA;
-                            $total_group_VB += $data['arrival']->group_VB;
-                            $total_group_VIA += $data['arrival']->group_VIA;
-                            $total_group_VIB += $data['arrival']->group_VIB;
-                            $total_group_VII += $data['arrival']->group_VII;
-                            $total_group_VIII += $data['arrival']->group_VIII;
-                            $total_group_IX += $data['arrival']->group_IX;
-                            $total_load_factor_passenger += $data['arrival']->load_factor_passenger;
-                            $total_load_factor_vehicle += $data['arrival']->load_factor_vehicle;
+                            $total_passenger_capacity += $passenger_capacity;
+                            $total_vehicle_capacity += $vehicle_capacity;
+                            $total_adult_passenger += $adult_passenger;
+                            $total_child_passenger += $child_passenger;
+                            $total_vehicle_passenger += $vehicle_passenger;
+                            $total_group_I += (int) ($data['arrival']->group_I ?? 0);
+                            $total_group_II += (int) ($data['arrival']->group_II ?? 0);
+                            $total_group_III += (int) ($data['arrival']->group_III ?? 0);
+                            $total_group_IVA += (int) ($data['arrival']->group_IVA ?? 0);
+                            $total_group_IVB += (int) ($data['arrival']->group_IVB ?? 0);
+                            $total_group_VA += (int) ($data['arrival']->group_VA ?? 0);
+                            $total_group_VB += (int) ($data['arrival']->group_VB ?? 0);
+                            $total_group_VIA += (int) ($data['arrival']->group_VIA ?? 0);
+                            $total_group_VIB += (int) ($data['arrival']->group_VIB ?? 0);
+                            $total_group_VII += (int) ($data['arrival']->group_VII ?? 0);
+                            $total_group_VIII += (int) ($data['arrival']->group_VIII ?? 0);
+                            $total_group_IX += (int) ($data['arrival']->group_IX ?? 0);
                             $total_group_IV_V_VI_VII_VIII_IX +=
-                                $data['arrival']->group_IVA +
-                                $data['arrival']->group_IVB +
-                                $data['arrival']->group_VA +
-                                $data['arrival']->group_VB +
-                                $data['arrival']->group_VIA +
-                                $data['arrival']->group_VIB +
-                                $data['arrival']->group_VII +
-                                $data['arrival']->group_VIII +
-                                $data['arrival']->group_IX;
-                            $total_bulk_goods += $data['arrival']->bulk_goods;
-                            $total_vehicle_load += $data['arrival']->vehicle_load;
+                                (int) ($data['arrival']->group_IVA ?? 0) +
+                                (int) ($data['arrival']->group_IVB ?? 0) +
+                                (int) ($data['arrival']->group_VA ?? 0) +
+                                (int) ($data['arrival']->group_VB ?? 0) +
+                                (int) ($data['arrival']->group_VIA ?? 0) +
+                                (int) ($data['arrival']->group_VIB ?? 0) +
+                                (int) ($data['arrival']->group_VII ?? 0) +
+                                (int) ($data['arrival']->group_VIII ?? 0) +
+                                (int) ($data['arrival']->group_IX ?? 0);
+                            $total_load_factor_passenger += (float) ($data['arrival']->load_factor_passenger ?? 0);
+                            $total_load_factor_vehicle += (float) ($data['arrival']->load_factor_vehicle ?? 0);
+                            $total_bulk_goods += $bulk_goods;
+                            $total_vehicle_load += $vehicle_load;
                         @endphp
                     @endif
                 @endforeach
@@ -584,38 +595,48 @@
                 @foreach ($datesInMonth as $date => $data)
                     @if ($data['departure'])
                         @php
+                            // Pastikan nilai numerik
+                            $passenger_capacity = (int) ($data['departure']->schedule->ship->passenger_capacity ?? 0);
+                            $vehicle_capacity = (int) ($data['departure']->schedule->ship->vehicle_capacity ?? 0);
+                            $adult_passenger = (int) ($data['departure']->adult_passenger ?? 0);
+                            $child_passenger = (int) ($data['departure']->child_passenger ?? 0);
+                            $vehicle_passenger = (int) ($data['departure']->vehicle_passenger ?? 0);
+                            $bulk_goods = (float) str_replace(',', '.', $data['departure']->bulk_goods ?? 0);
+                            $vehicle_load = (float) str_replace(',', '.', $data['departure']->vehicle_load ?? 0);
+
+                            // Update total
                             $total_trip++;
-                            $total_passenger_capacity += $data['departure']->schedule->ship->passenger_capacity;
-                            $total_vehicle_capacity += $data['departure']->schedule->ship->vehicle_capacity;
-                            $total_adult_passenger += $data['departure']->adult_passenger;
-                            $total_child_passenger += $data['departure']->child_passenger;
-                            $total_vehicle_passenger += $data['departure']->vehicle_passenger;
-                            $total_group_I += $data['departure']->group_I;
-                            $total_group_II += $data['departure']->group_II;
-                            $total_group_III += $data['departure']->group_III;
-                            $total_group_IVA += $data['departure']->group_IVA;
-                            $total_group_IVA += $data['departure']->group_IVB;
-                            $total_group_VA += $data['departure']->group_VA;
-                            $total_group_VA += $data['departure']->group_VB;
-                            $total_group_VIA += $data['departure']->group_VIA;
-                            $total_group_VIB += $data['departure']->group_VIB;
-                            $total_group_VII += $data['departure']->group_VII;
-                            $total_group_VIII += $data['departure']->group_VIII;
-                            $total_group_IX += $data['departure']->group_IX;
-                            $total_load_factor_passenger += $data['departure']->load_factor_passenger;
-                            $total_load_factor_vehicle += $data['departure']->load_factor_vehicle;
+                            $total_passenger_capacity += $passenger_capacity;
+                            $total_vehicle_capacity += $vehicle_capacity;
+                            $total_adult_passenger += $adult_passenger;
+                            $total_child_passenger += $child_passenger;
+                            $total_vehicle_passenger += $vehicle_passenger;
+                            $total_group_I += (int) ($data['departure']->group_I ?? 0);
+                            $total_group_II += (int) ($data['departure']->group_II ?? 0);
+                            $total_group_III += (int) ($data['departure']->group_III ?? 0);
+                            $total_group_IVA += (int) ($data['departure']->group_IVA ?? 0);
+                            $total_group_IVB += (int) ($data['departure']->group_IVB ?? 0);
+                            $total_group_VA += (int) ($data['departure']->group_VA ?? 0);
+                            $total_group_VB += (int) ($data['departure']->group_VB ?? 0);
+                            $total_group_VIA += (int) ($data['departure']->group_VIA ?? 0);
+                            $total_group_VIB += (int) ($data['departure']->group_VIB ?? 0);
+                            $total_group_VII += (int) ($data['departure']->group_VII ?? 0);
+                            $total_group_VIII += (int) ($data['departure']->group_VIII ?? 0);
+                            $total_group_IX += (int) ($data['departure']->group_IX ?? 0);
                             $total_group_IV_V_VI_VII_VIII_IX +=
-                                $data['departure']->group_IVA +
-                                $data['departure']->group_IVB +
-                                $data['departure']->group_VA +
-                                $data['departure']->group_VB +
-                                $data['departure']->group_VIA +
-                                $data['departure']->group_VIB +
-                                $data['departure']->group_VII +
-                                $data['departure']->group_VIII +
-                                $data['departure']->group_IX;
-                            $total_bulk_goods += $data['departure']->bulk_goods;
-                            $total_vehicle_load += $data['departure']->vehicle_load;
+                                (int) ($data['departure']->group_IVA ?? 0) +
+                                (int) ($data['departure']->group_IVB ?? 0) +
+                                (int) ($data['departure']->group_VA ?? 0) +
+                                (int) ($data['departure']->group_VB ?? 0) +
+                                (int) ($data['departure']->group_VIA ?? 0) +
+                                (int) ($data['departure']->group_VIB ?? 0) +
+                                (int) ($data['departure']->group_VII ?? 0) +
+                                (int) ($data['departure']->group_VIII ?? 0) +
+                                (int) ($data['departure']->group_IX ?? 0);
+                            $total_load_factor_passenger += (float) ($data['departure']->load_factor_passenger ?? 0);
+                            $total_load_factor_vehicle += (float) ($data['departure']->load_factor_vehicle ?? 0);
+                            $total_bulk_goods += $bulk_goods;
+                            $total_vehicle_load += $vehicle_load;
                         @endphp
                     @endif
                 @endforeach
