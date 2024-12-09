@@ -16,7 +16,7 @@
         @enderror
     </div>
     <div class="col-md-6 mb-6">
-        <label class="form-label" for="basic-default-fullname">Jadwal Kedatangan</label>
+        <label class="form-label" for="basic-default-fullname">Jadwal Keberangkatan</label>
         <select name="schedule_id" class="select2 form-select @error('schedule_id')
         invalid
     @enderror">
