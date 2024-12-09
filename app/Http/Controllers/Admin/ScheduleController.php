@@ -159,11 +159,12 @@ class ScheduleController extends Controller implements HasMiddleware
         }
     }
 
-    public function detailShip($ship_id, $month, $year)
+    public function detailShip($ship_id, $type, $month, $year)
     {
         // Ambil seluruh jadwal berdasarkan ship_id dan bulan/tahun
         $schedules = Schedule::with('ship', 'originPort', 'destinationPort')
             ->where('ship_id', $ship_id)
+            ->where('type', $type)
             ->whereMonth('time', $month)
             ->whereYear('time', $year)
             ->orderBy('time')
