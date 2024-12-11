@@ -215,13 +215,13 @@ class ManifestController extends Controller implements HasMiddleware
 
         // Isi array dengan data keberangkatan yang ada
         foreach ($departures as $departure) {
-            $departureDate = Carbon::parse($departure->schedule->departure_time)->format('Y-m-d');
+            $departureDate = Carbon::parse($departure->schedule->time)->format('Y-m-d');
             $datesInMonth[$departureDate]['departure'] = $departure; // Isi dengan manifest keberangkatan jika ada
         }
 
         // Isi array dengan data kedatangan yang ada
         foreach ($arrivals as $arrival) {
-            $arrivalDate = Carbon::parse($arrival->schedule->arrive_time)->format('Y-m-d');
+            $arrivalDate = Carbon::parse($arrival->schedule->time)->format('Y-m-d');
             $datesInMonth[$arrivalDate]['arrival'] = $arrival; // Isi dengan manifest kedatangan jika ada
         }
 
